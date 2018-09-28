@@ -6,39 +6,49 @@ new FormModel {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
 			"title": "Login"
+			"$locationPolicy": 1
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "loginTabbedPane"
 				"maximumSize": new java.awt.Dimension( 450, 557 )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 					"$columnSpecs": "left:0:1.0"
-					"$rowSpecs": "0, 53, 207"
+					"$rowSpecs": "241, 13, 280, 0"
 					"$alignTop": true
 					"$alignLeft": true
 				} ) {
 					name: "userPanel"
-					"maximumSize": new java.awt.Dimension( 450, 525 )
+					"maximumSize": new java.awt.Dimension( 450, 1000 )
 					"visible": false
+					"opaque": false
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "441"
-						"$rowSpecs": "0, 0, 0"
+						"$rowSpecs": "31, 0, 9, 0, 125"
 						"$hGap": 5
 						"$vGap": 5
 						"$alignLeft": true
 						"$alignTop": true
 					} ) {
 						name: "userLoginPanel"
+						"maximumSize": new java.awt.Dimension( 460, 250 )
+						"opaque": false
+						"minimumSize": new java.awt.Dimension( 460, 227 )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label2"
 							"text": "superVCD 用户登录"
 							"horizontalAlignment": 0
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							"font": new java.awt.Font( "Microsoft YaHei UI", 0, 18 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "hidemode 3"
-							"$columnConstraints": "[69,fill][160,fill][134,fill][76,fill]"
+							"$columnConstraints": "[93,fill][113,fill][100,fill][76,fill]"
 							"$rowConstraints": "0[39][42]"
 						} ) {
 							name: "up_panel"
 							"opaque": false
+							"maximumSize": new java.awt.Dimension( 460, 190 )
+							"minimumSize": new java.awt.Dimension( 460, 80 )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "usernameLb"
 								"text": "用户名"
@@ -49,15 +59,17 @@ new FormModel {
 								"value": "cell 1 0"
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "usernameTf"
+								name: "loginUsernameTf"
 								"background": new java.awt.Color( 143, 211, 196, 255 )
 								"selectedTextColor": sfield java.awt.Color white
-								"maximumSize": new java.awt.Dimension( 95, 40 )
+								"maximumSize": new java.awt.Dimension( 100, 24 )
 								"caretColor": new java.awt.Color( 255, 255, 255, 255 )
 								"foreground": new java.awt.Color( 255, 255, 255, 255 )
 								"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
 								"border": new main.ui.view.RoundBorder
 								"opaque": false
+								"minimumSize": new java.awt.Dimension( 100, 24 )
+								"preferredSize": new java.awt.Dimension( 100, 24 )
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 2 0"
 							} )
@@ -71,106 +83,172 @@ new FormModel {
 								"value": "cell 1 1"
 							} )
 							add( new FormComponent( "javax.swing.JPasswordField" ) {
-								name: "txtPwd"
+								name: "loginTxtPwd"
+								"border": new main.ui.view.RoundBorder
+								"maximumSize": new java.awt.Dimension( 100, 24 )
+								"preferredSize": new java.awt.Dimension( 120, 24 )
+								"minimumSize": new java.awt.Dimension( 100, 24 )
+								"opaque": false
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 2 1"
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 1
+							"gridy": 3
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "hidemode 3"
-							"$columnConstraints": "[70,fill][132,fill][119,fill]"
-							"$rowConstraints": "[39]"
+							"$columnConstraints": "[170,fill][66,fill][63,fill]"
+							"$rowConstraints": "[39]0[20]"
 						} ) {
 							name: "down_panel"
 							"opaque": false
 							"maximumSize": new java.awt.Dimension( 172, 45 )
+							"minimumSize": new java.awt.Dimension( 181, 45 )
+							"preferredSize": new java.awt.Dimension( 351, 45 )
 							add( new FormComponent( "javax.swing.JButton" ) {
 								name: "loginBtn"
 								"text": "登录"
-								"foreground": new java.awt.Color( 255, 255, 255, 255 )
+								"foreground": sfield java.awt.Color black
+								"minimumSize": new java.awt.Dimension( 110, 30 )
+								"maximumSize": new java.awt.Dimension( 110, 30 )
+								"horizontalTextPosition": 0
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-								"value": "cell 1 0"
+								"value": "cell 1 0 2 1"
 							} )
-							add( new FormComponent( "javax.swing.JButton" ) {
-								name: "registerBtn"
-								"text": "注册"
-								"maximumSize": new java.awt.Dimension( 66, 30 )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "noRegistLabel"
+								"text": "没有帐号，请先注册！"
+								"font": new java.awt.Font( "Microsoft YaHei UI", 0, 12 )
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-								"value": "cell 2 0"
+								"value": "cell 1 1 2 1"
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 2
+							"gridy": 4
 						} )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridheight": 2
+					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-						"$columnSpecs": "64, 158, 175"
-						"$rowSpecs": "40, 36, 0, 27, 0"
+						"$columnSpecs": "94, 116, 125"
+						"$rowSpecs": "22, 13, 32, 32, 32, 0"
 						"$hGap": 5
 						"$vGap": 5
 						"$alignLeft": true
 						"$alignTop": true
 					} ) {
 						name: "userRegistePanel"
-						"visible": false
+						"maximumSize": new java.awt.Dimension( 450, 170 )
+						"opaque": false
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label5"
+							"text": "用户注册"
+							"horizontalAlignment": 0
+							"font": new java.awt.Font( "Microsoft YaHei UI", 0, 18 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridwidth": 2
+						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label1"
 							"text": "用户名"
 							"horizontalTextPosition": 0
 							"horizontalAlignment": 0
+							"foreground": new java.awt.Color( 255, 255, 255, 255 )
+							"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
+							"gridy": 2
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "textField1"
+							name: "registerUsernameTF"
+							"opaque": false
+							"border": new main.ui.view.RoundBorder
+							"maximumSize": new java.awt.Dimension( 100, 24 )
+							"minimumSize": new java.awt.Dimension( 100, 24 )
+							"preferredSize": new java.awt.Dimension( 100, 24 )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
+							"gridy": 2
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label3"
 							"text": "密码"
 							"horizontalAlignment": 0
+							"foreground": sfield java.awt.Color white
+							"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 1
+							"gridy": 3
 							"gridx": 1
 						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "textField2"
+						add( new FormComponent( "javax.swing.JPasswordField" ) {
+							name: "registTxtPwd"
+							"opaque": false
+							"border": new main.ui.view.RoundBorder
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
-							"gridy": 1
+							"gridy": 3
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label4"
 							"text": "确认密码"
 							"horizontalAlignment": 0
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 3
-							"gridx": 1
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "textField3"
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridx": 2
-							"gridy": 3
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "registerBtn2"
-							"text": "register"
+							"foreground": sfield java.awt.Color white
+							"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 4
 							"gridx": 1
 						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "resetBtn"
-							"text": "reset"
+						add( new FormComponent( "javax.swing.JPasswordField" ) {
+							name: "registAgainTxtPwd"
+							"opaque": false
+							"border": new main.ui.view.RoundBorder
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 2
 							"gridy": 4
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "26, 79, 36, 76"
+							"$rowSpecs": "0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignTop": true
+							"$alignLeft": true
+						} ) {
+							name: "buttonPanel"
+							"opaque": false
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "registerBtn"
+								"text": "注册"
+								"preferredSize": new java.awt.Dimension( 75, 30 )
+								"maximumSize": new java.awt.Dimension( 75, 30 )
+								"minimumSize": new java.awt.Dimension( 75, 30 )
+								"foreground": sfield java.awt.Color black
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "resetBtn"
+								"text": "重置"
+								"foreground": sfield java.awt.Color black
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+								"gridy": 1
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 5
+							"gridwidth": 2
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 2
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label6"
+						"text": "text"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "D:\\JavaProject\\SuperVCD\\src\\resources\\5e37dca7ecd87ee1578ff433bd143b91.jpg" )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridheight": 4
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "用户登录"
@@ -192,7 +270,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 10 )
-			"size": new java.awt.Dimension( 445, 465 )
+			"size": new java.awt.Dimension( 445, 535 )
 		} )
 	}
 }
