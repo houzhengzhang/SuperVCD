@@ -1,7 +1,7 @@
-package main;
+package client;
 
 
-import main.ui.controller.LoginFrameController;
+import client.ui.controller.LoginFrameController;
 
 public class Runner {
     public static void main(String[] args) {
