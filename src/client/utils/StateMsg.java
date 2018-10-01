@@ -14,7 +14,9 @@ public enum StateMsg {
     REGISTERED_SUCCESS_HINT(1001, "注册成功！"),
     PASSWORD_ERROR_HINT(1002, "密码错误！请重新输入"),
     UNREGISTERED_HINT(1003, "该用户未注册，请先注册！"),
-    REGISTERED_ERROR_HINT(1004, "该用户已注册，请登录！");
+    REGISTERED_ERROR_HINT(1004, "注册失败！该用户已注册，请登录！"),
+
+    SERVER_DISCONNECT_ERROR(1010,"服务器断开连接，请重试！");
 
     private int code;
     private String msg;
@@ -36,6 +38,7 @@ public enum StateMsg {
         return null;
     }
 
+    @Override
     public String toString(){
         JSONObject json = new JSONObject();
         json.put("code", code);
@@ -43,6 +46,7 @@ public enum StateMsg {
 
         return json.toString();
     }
+
 
     private StateMsg(int code, String msg) {
         this.code = code;

@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Thu Sep 20 18:01:36 CST 2018
  */
 
-package main.ui.view;
+package client.ui.view;
 
 import java.awt.*;
 import javax.swing.*;
@@ -35,10 +35,6 @@ public class MainFrame extends JFrame {
         searchBtn = new JButton();
         tableScrollPane = new JScrollPane();
         musicTable = new JTable();
-        button1 = new JButton();
-        button2 = new JButton();
-        button3 = new JButton();
-        button4 = new JButton();
 
         //======== this ========
         Container contentPane = getContentPane();
@@ -132,33 +128,9 @@ public class MainFrame extends JFrame {
                 musicTable.setModel(new DefaultTableModel());
                 tableScrollPane.setViewportView(musicTable);
             }
-            mainPanel.add(tableScrollPane, new GridBagConstraints(1, 1, 4, 1, 0.0, 0.0,
+            mainPanel.add(tableScrollPane, new GridBagConstraints(0, 1, 5, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
-
-            //---- button1 ----
-            button1.setText("\u9996\u9875");
-            mainPanel.add(button1, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 5), 0, 0));
-
-            //---- button2 ----
-            button2.setText("\u4e0a\u4e00\u9875");
-            mainPanel.add(button2, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 5), 0, 0));
-
-            //---- button3 ----
-            button3.setText("\u4e0b\u4e00\u9875");
-            mainPanel.add(button3, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 5), 0, 0));
-
-            //---- button4 ----
-            button4.setText("\u5c3e\u9875");
-            mainPanel.add(button4, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 5), 0, 0));
         }
         contentPane.add(mainPanel, BorderLayout.CENTER);
         pack();
@@ -182,10 +154,6 @@ public class MainFrame extends JFrame {
     private JButton searchBtn;
     private JScrollPane tableScrollPane;
     private JTable musicTable;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public JTable getMusicTable() {

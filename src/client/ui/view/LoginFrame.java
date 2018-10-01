@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Mon Sep 17 20:15:23 CST 2018
  */
 
-package main.ui.view;
+package client.ui.view;
 
 import java.awt.*;
 import javax.swing.*;
@@ -69,11 +69,12 @@ public class LoginFrame extends JFrame {
 
                 //======== userLoginPanel ========
                 {
-                    userLoginPanel.setMaximumSize(new Dimension(460, 250));
+                    userLoginPanel.setMaximumSize(new Dimension(450, 250));
                     userLoginPanel.setOpaque(false);
-                    userLoginPanel.setMinimumSize(new Dimension(460, 227));
+                    userLoginPanel.setMinimumSize(new Dimension(450, 227));
+                    userLoginPanel.setPreferredSize(new Dimension(420, 304));
                     userLoginPanel.setLayout(new GridBagLayout());
-                    ((GridBagLayout)userLoginPanel.getLayout()).columnWidths = new int[] {441, 0};
+                    ((GridBagLayout)userLoginPanel.getLayout()).columnWidths = new int[] {401, 0};
                     ((GridBagLayout)userLoginPanel.getLayout()).rowHeights = new int[] {36, 0, 14, 0, 125, 0};
                     ((GridBagLayout)userLoginPanel.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
                     ((GridBagLayout)userLoginPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
@@ -94,7 +95,7 @@ public class LoginFrame extends JFrame {
                         up_panel.setLayout(new MigLayout(
                             "hidemode 3",
                             // columns
-                            "[93,fill]" +
+                            "[67,fill]" +
                             "[113,fill]" +
                             "[100,fill]" +
                             "[76,fill]",
@@ -150,7 +151,7 @@ public class LoginFrame extends JFrame {
                         down_panel.setLayout(new MigLayout(
                             "hidemode 3",
                             // columns
-                            "[170,fill]" +
+                            "[153,fill]" +
                             "[66,fill]" +
                             "[63,fill]",
                             // rows
@@ -284,7 +285,7 @@ public class LoginFrame extends JFrame {
 
                 //---- label6 ----
                 label6.setText("text");
-                label6.setIcon(new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\resources\\5e37dca7ecd87ee1578ff433bd143b91.jpg"));
+                label6.setIcon(new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client.resources\\5e37dca7ecd87ee1578ff433bd143b91.jpg"));
                 userPanel.add(label6, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
                     GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
                     new Insets(0, 0, 0, 0), 0, 0));

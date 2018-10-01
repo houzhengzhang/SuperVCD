@@ -94,7 +94,9 @@ public class DbUtil {
                 num = pstmt.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            // 该用户已注册
+            num = 0;
         }
         return num;
 

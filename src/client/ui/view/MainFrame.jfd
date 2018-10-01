@@ -83,35 +83,7 @@ new FormModel {
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridy": 1
-					"gridwidth": 4
-					"gridx": 1
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button1"
-					"text": "首页"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 2
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button2"
-					"text": "上一页"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 1
-					"gridy": 2
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button3"
-					"text": "下一页"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 2
-					"gridy": 2
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button4"
-					"text": "尾页"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 3
-					"gridy": 2
+					"gridwidth": 5
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"

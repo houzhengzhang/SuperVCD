@@ -1,14 +1,17 @@
 package server.service;
 
+import client.utils.StateMsg;
 import org.json.JSONObject;
 import server.entity.UserInfo;
 import server.model.UserModel;
 import server.utils.BytesUtils;
+import server.utils.PackMsgUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 /**
@@ -53,7 +56,7 @@ public class Client implements Runnable {
 
     }
 
-    private String readMessage(InputStream inputStream) throws IOException {
+    private String readMessage(InputStream inputStream) throws SocketException, IOException {
         byte[] bytes = new byte[4];
         // 读取数据包长度
         inputStream.read(bytes);
@@ -72,6 +75,7 @@ public class Client implements Runnable {
         while (bConnected) {
             try {
                 String msg = readMessage(inputStream);
+                // System.out.println("收到的消息： " + msg);
                 if (msg.equals("")) {
                     // 客户端断开连接
                     bConnected = false;
@@ -81,7 +85,11 @@ public class Client implements Runnable {
                 } else if (msg.startsWith("registe")) {
                     registe(msg);
                 }
-            } catch (IOException e) {
+            }catch (SocketException e){
+                // 关闭连接
+                stopClient();
+                System.out.println("一个客户端中断连接");
+            }catch (IOException e){
                 e.printStackTrace();
             }
         }
@@ -91,23 +99,26 @@ public class Client implements Runnable {
         // 将socket接受到的数据还原为JSONObject
         int idx = msg.indexOf("{");
         msg = msg.substring(idx);
+        // System.out.println("login方法得到的消息：" + msg);
         JSONObject json = new JSONObject(msg);
         String userNameStr = json.getString("userName");
         String userPasswordStr = json.getString("userPassword");
-        String returnMessage ;
+        StateMsg state;
         try {
             UserInfo user = UserModel.queryByName(userNameStr);
             if (user == null) {
                 // 该用户不存在
-                returnMessage = "login#failed";
+                state = StateMsg.UNREGISTERED_HINT;
             } else if(!userPasswordStr.equals(user.getUserPassword())){
                 // 密码错误
-                returnMessage = "login#failed";
+                state = StateMsg.PASSWORD_ERROR_HINT;
             }  else {
                 // 登录成功
-                returnMessage = "login#success";
+                state = StateMsg.LOGIN_SUCCESS_HINT;
             }
-            outputStream.write(returnMessage.getBytes());
+            // System.out.println("login返回的消息： " + state.toString());
+            byte[] msgByte = PackMsgUtil.packMsg(state.toString());
+            outputStream.write(msgByte);
             outputStream.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,19 +133,25 @@ public class Client implements Runnable {
         JSONObject json = new JSONObject(msg);
         String userNameStr = json.getString("userName");
         String userPasswordStr = json.getString("userPassword");
-        String returnMessage ;
+        StateMsg state;
         int num = UserModel.insert(userNameStr, userPasswordStr);
         if(num==1){
             // 注册成功
-            returnMessage= "registe#success";
+            state = StateMsg.REGISTERED_SUCCESS_HINT;
         }else {
-            returnMessage= "registe#failed";
+            state = StateMsg.REGISTERED_ERROR_HINT;
         }
         try {
-            outputStream.write(returnMessage.getBytes());
+            byte[] msgByte = PackMsgUtil.packMsg(state.toString());
+            outputStream.write(msgByte);
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static void main(String[] args) {
+        SocketService socketServer = new SocketService();
+        System.out.println("服务端已启动！");
+        socketServer.start();
     }
 }

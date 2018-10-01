@@ -21,7 +21,7 @@ new FormModel {
 					"visible": false
 					"opaque": false
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-						"$columnSpecs": "441"
+						"$columnSpecs": "401"
 						"$rowSpecs": "31, 0, 9, 0, 125"
 						"$hGap": 5
 						"$vGap": 5
@@ -29,9 +29,10 @@ new FormModel {
 						"$alignTop": true
 					} ) {
 						name: "userLoginPanel"
-						"maximumSize": new java.awt.Dimension( 460, 250 )
+						"maximumSize": new java.awt.Dimension( 450, 250 )
 						"opaque": false
-						"minimumSize": new java.awt.Dimension( 460, 227 )
+						"minimumSize": new java.awt.Dimension( 450, 227 )
+						"preferredSize": new java.awt.Dimension( 420, 304 )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label2"
 							"text": "superVCD 用户登录"
@@ -42,7 +43,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "hidemode 3"
-							"$columnConstraints": "[93,fill][113,fill][100,fill][76,fill]"
+							"$columnConstraints": "[67,fill][113,fill][100,fill][76,fill]"
 							"$rowConstraints": "0[39][42]"
 						} ) {
 							name: "up_panel"
@@ -97,7 +98,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 							"$layoutConstraints": "hidemode 3"
-							"$columnConstraints": "[170,fill][66,fill][63,fill]"
+							"$columnConstraints": "[153,fill][66,fill][63,fill]"
 							"$rowConstraints": "[39]0[20]"
 						} ) {
 							name: "down_panel"
