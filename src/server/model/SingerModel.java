@@ -14,7 +14,12 @@ import java.util.List;
  * @Description:
  */
 public class SingerModel {
-
+    /**
+     * 根据id返回对应歌手
+     * @param singerId
+     * @return
+     * @throws Exception
+     */
     public static SingerInfo queryById(int singerId) throws Exception {
         // TODO 异常处理位置
         Connection conn = DbUtil.getCon();

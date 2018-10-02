@@ -35,10 +35,12 @@ public class MainFrame extends JFrame {
         searchBtn = new JButton();
         tableScrollPane = new JScrollPane();
         musicTable = new JTable();
+        panel1 = new JPanel();
+        button1 = new JButton();
 
         //======== this ========
         Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
+        contentPane.setLayout(null);
 
         //======== topPanel ========
         {
@@ -48,7 +50,7 @@ public class MainFrame extends JFrame {
                 "[72,fill]" +
                 "[130,fill]" +
                 "[124,fill]" +
-                "[96,fill]",
+                "[172:178,fill]",
                 // rows
                 "[25,fill]" +
                 "[4]"));
@@ -90,34 +92,36 @@ public class MainFrame extends JFrame {
             }
             topPanel.add(topMenuBar, "cell 0 0 4 1");
         }
-        contentPane.add(topPanel, BorderLayout.NORTH);
+        contentPane.add(topPanel);
+        topPanel.setBounds(0, 0, 523, topPanel.getPreferredSize().height);
 
         //======== mainPanel ========
         {
+            mainPanel.setMaximumSize(new Dimension(475, 250));
             mainPanel.setLayout(new GridBagLayout());
-            ((GridBagLayout)mainPanel.getLayout()).columnWidths = new int[] {84, 76, 75, 103, 55, 0};
-            ((GridBagLayout)mainPanel.getLayout()).rowHeights = new int[] {25, 181, 0, 0};
-            ((GridBagLayout)mainPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout)mainPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)mainPanel.getLayout()).columnWidths = new int[] {37, 84, 76, 75, 103, 55, 0};
+            ((GridBagLayout)mainPanel.getLayout()).rowHeights = new int[] {25, 152, 0};
+            ((GridBagLayout)mainPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)mainPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
             //---- musicClassLabel ----
             musicClassLabel.setText("\u9009\u62e9\u97f3\u4e50\u7c7b\u522b");
-            mainPanel.add(musicClassLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            mainPanel.add(musicClassLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
-            mainPanel.add(musicComboBox, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            mainPanel.add(musicComboBox, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- searchField ----
             searchField.setMinimumSize(new Dimension(64, 25));
-            mainPanel.add(searchField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+            mainPanel.add(searchField, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- searchBtn ----
             searchBtn.setText("\u641c\u7d22");
-            mainPanel.add(searchBtn, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
+            mainPanel.add(searchBtn, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
@@ -128,11 +132,43 @@ public class MainFrame extends JFrame {
                 musicTable.setModel(new DefaultTableModel());
                 tableScrollPane.setViewportView(musicTable);
             }
-            mainPanel.add(tableScrollPane, new GridBagConstraints(0, 1, 5, 1, 0.0, 0.0,
+            mainPanel.add(tableScrollPane, new GridBagConstraints(1, 1, 5, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
+        }
+        contentPane.add(mainPanel);
+        mainPanel.setBounds(0, 36, 523, 189);
+
+        //======== panel1 ========
+        {
+            panel1.setLayout(new GridBagLayout());
+            ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {213, 246, 0};
+            ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+            ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+
+            //---- button1 ----
+            button1.setText("\u64ad\u653e");
+            panel1.add(button1, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         }
-        contentPane.add(mainPanel, BorderLayout.CENTER);
+        contentPane.add(panel1);
+        panel1.setBounds(-5, 250, 523, panel1.getPreferredSize().height);
+
+        { // compute preferred size
+            Dimension preferredSize = new Dimension();
+            for(int i = 0; i < contentPane.getComponentCount(); i++) {
+                Rectangle bounds = contentPane.getComponent(i).getBounds();
+                preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+            }
+            Insets insets = contentPane.getInsets();
+            preferredSize.width += insets.right;
+            preferredSize.height += insets.bottom;
+            contentPane.setMinimumSize(preferredSize);
+            contentPane.setPreferredSize(preferredSize);
+        }
         pack();
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -154,6 +190,8 @@ public class MainFrame extends JFrame {
     private JButton searchBtn;
     private JScrollPane tableScrollPane;
     private JTable musicTable;
+    private JPanel panel1;
+    private JButton button1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public JTable getMusicTable() {
@@ -162,5 +200,9 @@ public class MainFrame extends JFrame {
 
     public JComboBox getMusicComboBox() {
         return musicComboBox;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }

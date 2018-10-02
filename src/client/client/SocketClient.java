@@ -2,7 +2,9 @@ package client.client;
 
 import client.utils.PackMsgUtil;
 import client.utils.StateMsg;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import server.entity.MusicInfo;
 import server.utils.BytesUtils;
 
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -92,6 +95,12 @@ public class SocketClient {
         return socketClient;
     }
 
+    /**
+     * 登录请求
+     * @param userName
+     * @param userPassword
+     * @return
+     */
     public StateMsg login(String userName, String userPassword) {
         Map<String, Object> map = new HashMap<>();
         map.put("userName", userName);
@@ -107,6 +116,12 @@ public class SocketClient {
         return receiveMsg();
     }
 
+    /**
+     * 注册请求
+     * @param userName
+     * @param userPassword
+     * @return
+     */
     public StateMsg registe(String userName, String userPassword){
         Map<String, Object> map = new HashMap<>();
         map.put("userName", userName);
@@ -120,5 +135,39 @@ public class SocketClient {
         }
         // 服务器返回的消息
         return receiveMsg();
+    }
+
+
+    private JSONArray receiveMusicInfo(){
+        byte[] bytes = new byte[4];
+        try {
+            inputStream.read(bytes);
+            int length = BytesUtils.byteArray2Int(bytes);
+
+            bytes = new byte[length];
+            inputStream.read(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jsonArray = new JSONArray(new String(bytes));
+        return jsonArray;
+    }
+    /**
+     * 查询歌曲请求
+     * @param musicType
+     */
+    public JSONArray selectMusic(String musicType){
+        Map<String, Object> map = new HashMap<>();
+        map.put("musicType", musicType);
+
+        byte[] msgByte = PackMsgUtil.packMsg("selectMusic",map);
+        try {
+            sendMsg(msgByte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return receiveMusicInfo();
     }
 }

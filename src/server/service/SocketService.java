@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SocketService {
-    boolean started = false;
+    private boolean started = false;
     private static final int PORT = 12138;
     ServerSocket serverSocket = null;
 
@@ -32,5 +32,11 @@ public class SocketService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        SocketService socketService = new SocketService();
+        System.out.println("服务器已启动!");
+        socketService.start();
     }
 }

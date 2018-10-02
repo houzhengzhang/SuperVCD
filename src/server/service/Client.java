@@ -1,8 +1,11 @@
 package server.service;
 
 import client.utils.StateMsg;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import server.entity.MusicInfo;
 import server.entity.UserInfo;
+import server.model.MusicModel;
 import server.model.UserModel;
 import server.utils.BytesUtils;
 import server.utils.PackMsgUtil;
@@ -12,6 +15,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -84,6 +89,8 @@ public class Client implements Runnable {
                     login(msg);
                 } else if (msg.startsWith("registe")) {
                     registe(msg);
+                } else if (msg.startsWith("selectMusic")) {
+                    selectMusic(msg);
                 }
             }catch (SocketException e){
                 // 关闭连接
@@ -149,6 +156,28 @@ public class Client implements Runnable {
             e.printStackTrace();
         }
     }
+
+    private void selectMusic(String msg){
+        int idx = msg.indexOf("{");
+        msg = msg.substring(idx);
+        JSONObject json = new JSONObject(msg);
+        String musicType = json.getString("musicType");
+
+        try {
+            // TODO 缩小抛出异常范围
+            List<MusicInfo> musicInfoList = MusicModel.queryByType(musicType);
+            JSONArray jsonArray = new JSONArray(musicInfoList);
+            byte[] musicJsonByte = PackMsgUtil.packMsg(jsonArray.toString());
+
+            outputStream.write(musicJsonByte);
+            outputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void main(String[] args) {
         SocketService socketServer = new SocketService();
         System.out.println("服务端已启动！");

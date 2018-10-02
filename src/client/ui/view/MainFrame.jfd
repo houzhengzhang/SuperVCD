@@ -3,11 +3,11 @@ JFDML JFormDesigner: "6.0.2.0.116" Java: "1.8.0_152-release" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 				"$layoutConstraints": "insets 0,hidemode 3"
-				"$columnConstraints": "[72,fill][130,fill][124,fill][96,fill]"
+				"$columnConstraints": "[72,fill][130,fill][124,fill][172:178,fill]"
 				"$rowConstraints": "[25,fill][4]"
 			} ) {
 				name: "topPanel"
@@ -42,38 +42,41 @@ new FormModel {
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0 4 1"
 				} )
-			}, new FormLayoutConstraints( class java.lang.String ) {
-				"value": "North"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 523
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-				"$columnSpecs": "79, 71, 70, 98, 55"
-				"$rowSpecs": "20, 176, 0"
+				"$columnSpecs": "32, 79, 71, 70, 98, 55"
+				"$rowSpecs": "20, 152"
 				"$hGap": 5
 				"$vGap": 5
 				"$alignLeft": true
 				"$alignTop": true
 			} ) {
 				name: "mainPanel"
+				"maximumSize": new java.awt.Dimension( 475, 250 )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "musicClassLabel"
 					"text": "选择音乐类别"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+				} )
 				add( new FormComponent( "javax.swing.JComboBox" ) {
 					name: "musicComboBox"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 1
+					"gridx": 2
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
 					name: "searchField"
 					"minimumSize": new java.awt.Dimension( 64, 25 )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 3
+					"gridx": 4
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "searchBtn"
 					"text": "搜索"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 4
+					"gridx": 5
 				} )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "tableScrollPane"
@@ -84,9 +87,33 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridy": 1
 					"gridwidth": 5
+					"gridx": 1
 				} )
-			}, new FormLayoutConstraints( class java.lang.String ) {
-				"value": "Center"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 36
+				"width": 523
+				"height": 189
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "208, 246"
+				"$rowSpecs": "0, 0, 0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignLeft": true
+				"$alignTop": true
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button1"
+					"text": "播放"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 1
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 250
+				"width": 523
+				"x": -5
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
@@ -94,3 +121,4 @@ new FormModel {
 		} )
 	}
 }
+

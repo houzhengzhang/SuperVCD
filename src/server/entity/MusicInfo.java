@@ -1,5 +1,7 @@
 package server.entity;
 
+import server.model.SingerModel;
+
 import java.sql.Time;
 
 /**
@@ -12,7 +14,9 @@ public class MusicInfo {
 	private String musicName;
 	private Time musicTime;
 	private int albumId;
+	private AlbumInfo album;
 	private int singerId;
+	private SingerInfo singer;
 	private int typeId;
 
     public MusicInfo() {
@@ -24,6 +28,7 @@ public class MusicInfo {
         this.albumId = albumId;
         this.singerId = singerId;
         this.typeId = typeId;
+
     }
 
     public void setId(int id) {
@@ -74,5 +79,20 @@ public class MusicInfo {
         return typeId;
     }
 
+    public void setSinger(SingerInfo singer) {
+        this.singer = singer;
+    }
+
+    public SingerInfo getSinger() {
+        return singer;
+    }
+
+    public void setAlbum(AlbumInfo album) {
+        this.album = album;
+    }
+
+    public AlbumInfo getAlbum() {
+        return album;
+    }
 }
 

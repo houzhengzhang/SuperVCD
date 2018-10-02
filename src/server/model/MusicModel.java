@@ -1,6 +1,7 @@
 package server.model;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+
+import org.json.JSONArray;
 import server.dao.DbUtil;
 import server.entity.MusicInfo;
 import server.entity.SingerInfo;
@@ -27,6 +28,10 @@ public class MusicModel {
         String[] param = {typeName};
         ResultSet resultSet = DbUtil.executeQuery(conn, sql, param);
         List<MusicInfo> musicInfoList = ResultSetHandler.doHandler(resultSet, MusicInfo.class);
+        for(MusicInfo music : musicInfoList){
+                music.setSinger(SingerModel.queryById(music.getSingerId()));
+                music.setAlbum(AlbumModel.queryById(music.getAlbumId()));
+        }
         // TODO 判断结果为空
         return musicInfoList;
     }
@@ -34,11 +39,8 @@ public class MusicModel {
     public static void main(String[] args) {
         try {
             List<MusicInfo> musicInfoList = queryByType("流行");
-            for (MusicInfo musicInfo : musicInfoList) {
-                SingerInfo singerInfo = SingerModel.queryById(musicInfo.getSingerId());
-
-                System.out.println("歌名： " + musicInfo.getMusicName() + " 时长：" + musicInfo.getMusicTime() + "  歌手：" + singerInfo.getSingerName() );
-            }
+            JSONArray jsonArray = new JSONArray(musicInfoList);
+            System.out.println(jsonArray);
         } catch (Exception e) {
             e.printStackTrace();
         }

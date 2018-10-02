@@ -2,7 +2,6 @@ package client.ui.controller;
 
 import client.client.SocketClient;
 import client.ui.view.LoginFrame;
-import client.client.SocketClientOld;
 import client.utils.StateMsg;
 
 import javax.swing.*;
@@ -104,40 +103,38 @@ public class LoginFrameController {
         @Override
         public void actionPerformed(ActionEvent e) {
             // 测试
-//            MainFrameController mainFrameController = new MainFrameController();
-//            mainFrameController.showMainFrameWindow();
-//            loginFrame.setVisible(false);
+            MainFrameController mainFrameController = new MainFrameController();
+            mainFrameController.showMainFrameWindow();
+            loginFrame.setVisible(false);
 
-            String username = loginUsernameTf.getText();
-            String password = String.valueOf(loginTxtPwd.getPassword());
-
-            try {
-                // TODO 这里不应该获取socket连接
-                SocketClient socketClient = SocketClient.getSocketClient();
-                // 向服务端发送数据
-                StateMsg msg = socketClient.login(username, password);
-                System.out.println("返回的消息：" + msg.toString());
-                switch (msg) {
-                    case LOGIN_SUCCESS_HINT:
-                        // 登录成功
-                        MainFrameController mainFrameController = new MainFrameController();
-                        mainFrameController.showMainFrameWindow();
-                        loginFrame.setVisible(false);
-                        break;
-                    case UNREGISTERED_HINT:
-                        // 该用户未注册
-                        JOptionPane.showMessageDialog(null, msg.getMsg(), "提示", JOptionPane.WARNING_MESSAGE);
-                        break;
-                    case PASSWORD_ERROR_HINT:
-                        // 密码错误
-                        JOptionPane.showMessageDialog(null, msg.getMsg(), "提示", JOptionPane.WARNING_MESSAGE);
-                        break;
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-
-
+//            String username = loginUsernameTf.getText();
+//            String password = String.valueOf(loginTxtPwd.getPassword());
+//
+//            try {
+//                // TODO 这里不应该获取socket连接
+//                SocketClient socketClient = SocketClient.getSocketClient();
+//                // 向服务端发送数据
+//                StateMsg msg = socketClient.login(username, password);
+//                System.out.println("返回的消息：" + msg.toString());
+//                switch (msg) {
+//                    case LOGIN_SUCCESS_HINT:
+//                        // 登录成功
+//                        MainFrameController mainFrameController = new MainFrameController();
+//                        mainFrameController.showMainFrameWindow();
+//                        loginFrame.setVisible(false);
+//                        break;
+//                    case UNREGISTERED_HINT:
+//                        // 该用户未注册
+//                        JOptionPane.showMessageDialog(null, msg.getMsg(), "提示", JOptionPane.WARNING_MESSAGE);
+//                        break;
+//                    case PASSWORD_ERROR_HINT:
+//                        // 密码错误
+//                        JOptionPane.showMessageDialog(null, msg.getMsg(), "提示", JOptionPane.WARNING_MESSAGE);
+//                        break;
+//                }
+//            } catch (Exception e1) {
+//                e1.printStackTrace();
+//            }
         }
     }
 
