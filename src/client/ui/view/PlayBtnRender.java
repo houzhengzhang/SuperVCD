@@ -9,18 +9,18 @@ import java.awt.*;
  * @Date: 2018/10/2 18:10
  * @Description:
  */
-public class ButtonRender implements TableCellRenderer {
+public class PlayBtnRender implements TableCellRenderer {
     private JPanel panel;
-    private JButton button;
+    private MyButton button;
 
-    public ButtonRender() {
+    public PlayBtnRender() {
         initButton();
         initPanel();
     }
 
     private void initButton() {
         // 设置按钮的大小及位置。
-        button = new JButton("播放", new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\播放.png"));
+        button = new MyButton("播放", new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\播放.png"));
         button.setRolloverIcon(new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\播放2.png"));
         button.setOpaque(false);
         button.setBounds(0, 0, 18, 15);
@@ -44,6 +44,8 @@ public class ButtonRender implements TableCellRenderer {
         // 只为按钮赋值即可。也可以作其它操作，如绘背景等。
         button.setText(value == null ? "" : String.valueOf(value));
 
+        button.setRow(row);
+        button.setColumn(column);
         return panel;
     }
 

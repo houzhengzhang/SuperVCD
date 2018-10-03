@@ -36,5 +36,8 @@ public class MyButton extends JButton {
     public MyButton(String name) {
         super(name);
     }
+    public MyButton(String name, ImageIcon imageIcon) {
+        super(name, imageIcon);
+    }
 
 }

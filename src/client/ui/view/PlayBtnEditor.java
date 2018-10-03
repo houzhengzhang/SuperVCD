@@ -1,5 +1,7 @@
 package client.ui.view;
 
+import client.client.MusicPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,20 +12,21 @@ import java.awt.event.ActionListener;
  * @Date: 2018/10/2 18:25
  * @Description:
  */
-public class ButtonEditor extends DefaultCellEditor {
+public class PlayBtnEditor extends DefaultCellEditor {
     protected MyButton button;
     private JPanel panel;
     private String label;
 
     private boolean isPushed;
 
-    public ButtonEditor() {
+    public PlayBtnEditor() {
         // DefautlCellEditor有此构造器，需要传入一个，但这个不会使用到，直接new一个即可。
         super(new JCheckBox());
         // 设置点击几次激活编辑。
         setClickCountToStart(1);
         initButton();
         initPanel();
+        initListeners();
     }
 
     private void initPanel() {
@@ -39,13 +42,35 @@ public class ButtonEditor extends DefaultCellEditor {
         button.setOpaque(false);
         // 设置按钮的大小及位置。
         button.setBounds(0, 0, 18, 16);
+    }
+
+    private void initListeners() {
         // 为按钮添加事件。这里只能添加ActionListner事件，Mouse事件无效。
         button.addActionListener(new ActionListener() {
+            private boolean begin = false;
+            private boolean play = false;
+            private MusicPlayer player = MusicPlayer.getMusicPlayer("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\爱的代价.wav");
+
             public void actionPerformed(ActionEvent e) {
-                // 触发取消编辑的事件，不会调用tableModel的setValue方法。
-                ButtonEditor.this.fireEditingCanceled();
-                System.out.println("clicked!");
-//                JOptionPane.showMessageDialog(button, label + "开始播放");
+                MyButton button = (MyButton) e.getSource();
+                //打印被点击的行和列
+                System.out.println("test   -row:" + button.getRow() + "column :" + button.getColumn());
+//                // 触发取消编辑的事件，不会调用tableModel的setValue方法。
+                PlayBtnEditor.this.fireEditingCanceled();
+                if (!begin) {
+                    System.out.println("开始播放音乐");
+                    player.start(true);
+                    begin = true;
+                    play = true;
+                } else {
+                    if (play) {
+                        player.pause();
+                        play = false;
+                    } else {
+                        player.continues();
+                        play = true;
+                    }
+                }
             }
         });
     }
@@ -67,13 +92,6 @@ public class ButtonEditor extends DefaultCellEditor {
         return button;
     }
 
-    public Object getCellEditorValue() {
-        if (isPushed) {
-            JOptionPane.showMessageDialog(button, label + "开始播放");
-        }
-        isPushed = false;
-        return new String(label);
-    }
 
     public boolean stopCellEditing() {
         isPushed = false;
