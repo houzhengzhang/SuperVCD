@@ -47,30 +47,35 @@ public class PlayBtnEditor extends DefaultCellEditor {
     private void initListeners() {
         // 为按钮添加事件。这里只能添加ActionListner事件，Mouse事件无效。
         button.addActionListener(new ActionListener() {
-            private boolean begin = false;
             private boolean play = false;
-            private MusicPlayer player = MusicPlayer.getMusicPlayer("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\爱的代价.wav");
+            private MusicPlayer player = null;
+            private int row = -1;
+            private String musicUrl;
+            private MyButton button;
 
             public void actionPerformed(ActionEvent e) {
-                MyButton button = (MyButton) e.getSource();
+                button = (MyButton) e.getSource();
                 //打印被点击的行和列
-                System.out.println("test   -row:" + button.getRow() + "column :" + button.getColumn());
+//                System.out.println("test   -row:" + button.getRow() + "column :" + button.getColumn());
 //                // 触发取消编辑的事件，不会调用tableModel的setValue方法。
                 PlayBtnEditor.this.fireEditingCanceled();
-                if (!begin) {
-                    System.out.println("开始播放音乐");
-                    player.start(true);
-                    begin = true;
-                    play = true;
-                } else {
-                    if (play) {
-                        player.pause();
-                        play = false;
-                    } else {
-                        player.continues();
-                        play = true;
-                    }
+
+                if (row == button.getRow()) {
+                        if (play) {
+                            player.pause();
+                            play = false;
+                        } else {
+                            player.continues();
+                            play = true;
+                        }
+                }else {
+                    // 点击其他行
+                    row = button.getRow();
+                    musicUrl = button.getMusicUrl();
+                    player = MusicPlayer.getMusicPlayer(musicUrl);
+                    player.start(false);
                 }
+
             }
         });
     }
@@ -89,6 +94,10 @@ public class PlayBtnEditor extends DefaultCellEditor {
 
         button.setRow(row);
         button.setColumn(column);
+        // 获取当前按钮对应的歌曲地址
+        String musicUrl = (String) table.getValueAt(row, 3);
+        button.setMusicUrl(musicUrl);
+
         return button;
     }
 

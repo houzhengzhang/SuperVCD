@@ -4,7 +4,6 @@ import client.utils.PackMsgUtil;
 import client.utils.StateMsg;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import server.entity.MusicInfo;
 import server.utils.BytesUtils;
 
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,7 +48,7 @@ public class SocketClient {
         outputStream.flush();
     }
 
-    private StateMsg receiveMsg() {
+    private StateMsg receiveStateMsg() {
         // 处理服务端返回的数据
         byte[] bytes = new byte[4];
         try {
@@ -97,6 +95,7 @@ public class SocketClient {
 
     /**
      * 登录请求
+     *
      * @param userName
      * @param userPassword
      * @return
@@ -113,16 +112,17 @@ public class SocketClient {
             e.printStackTrace();
         }
         // 服务器返回的消息
-        return receiveMsg();
+        return receiveStateMsg();
     }
 
     /**
      * 注册请求
+     *
      * @param userName
      * @param userPassword
      * @return
      */
-    public StateMsg registe(String userName, String userPassword){
+    public StateMsg registe(String userName, String userPassword) {
         Map<String, Object> map = new HashMap<>();
         map.put("userName", userName);
         map.put("userPassword", userPassword);
@@ -134,11 +134,25 @@ public class SocketClient {
             e.printStackTrace();
         }
         // 服务器返回的消息
-        return receiveMsg();
+        return receiveStateMsg();
     }
 
 
-    private JSONArray receiveMusicInfo(){
+    private JSONArray receiveInfoArray() {
+        byte[] bytes = new byte[4];
+        try {
+            inputStream.read(bytes);
+            int length = BytesUtils.byteArray2Int(bytes);
+            bytes = new byte[length];
+            inputStream.read(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JSONArray jsonArray = new JSONArray(new String(bytes));
+        return jsonArray;
+    }
+
+    private JSONObject receiveJSONObject() {
         byte[] bytes = new byte[4];
         try {
             inputStream.read(bytes);
@@ -150,24 +164,62 @@ public class SocketClient {
             e.printStackTrace();
         }
 
-        JSONArray jsonArray = new JSONArray(new String(bytes));
-        return jsonArray;
+        JSONObject jsonObject = new JSONObject(new String(bytes));
+        return jsonObject;
     }
+
     /**
      * 查询歌曲请求
-     * @param musicType
+     *
+     * @param albumId
      */
-    public JSONArray selectMusic(String musicType){
+    public JSONArray selectMusic(int albumId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("musicType", musicType);
+        map.put("albumId", albumId);
 
-        byte[] msgByte = PackMsgUtil.packMsg("selectMusic",map);
+        byte[] msgByte = PackMsgUtil.packMsg("selectMusic", map);
         try {
             sendMsg(msgByte);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return receiveMusicInfo();
+        return receiveInfoArray();
     }
+
+    /**
+     * 查询专辑请求
+     * @param albumName
+     * @return
+     */
+    public JSONArray selectAlbum(String albumName) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("albumType", albumName);
+
+        byte[] msgByte = PackMsgUtil.packMsg("selectAlbum", map);
+        try {
+            sendMsg(msgByte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return receiveInfoArray();
+    }
+
+    /**
+     * 查询歌手请求
+     * @param albumId
+     * @return
+     */
+    public JSONObject selectSinger(int albumId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("albumId", albumId);
+        byte[] msgByte = PackMsgUtil.packMsg("selectSinger", map);
+        try {
+            sendMsg(msgByte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return receiveJSONObject();
+    }
+
 }

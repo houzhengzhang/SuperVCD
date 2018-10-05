@@ -1,43 +1,49 @@
 package client.ui.model;
 
 import client.client.SocketClient;
-import client.utils.DateTimeUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.table.AbstractTableModel;
-import java.sql.Time;
 
 /**
  * @Auther: Administrator
  * @Date: 2018/10/3 09:12
  * @Description:
  */
-public class MusicTableModel extends AbstractTableModel {
-    private String[] columnNames = {"", "歌名", "时长", "url"};
+public class AlbumTableModel extends AbstractTableModel {
+    private String[] columnNames = {"", "专辑名", "歌手", "出版公司", "出版时间", ""};
     // 获取客户端连接
     private SocketClient client = SocketClient.getSocketClient();
-    private JSONArray items = null;
+    private JSONArray albumItems = null;
+    private String albumType;
+    private JSONObject singerItem;
 
-    public void setAlbumId(int albumId) {
-        items = client.selectMusic(albumId);
+    public void setMusicType(String albumType) {
+        this.albumType = albumType;
+        albumItems = client.selectAlbum(albumType);
+        singerItem = client.selectSinger(albumItems.getJSONObject(0).getInt("id"));
     }
 
-    public String getAllMusicTime(){
-        String timeStr1 =  items.getJSONObject(0).getString("musicTime");
-        for (int i = 1; i < items.length() ; i++) {
-            String timeStr2 = items.getJSONObject(i).getString("musicTime");
-            timeStr1 = DateTimeUtil.addTimeStr(timeStr1, timeStr2);
-        }
-        return timeStr1;
 
+    public JSONObject getAlbumAT(int row) {
+        return albumItems.getJSONObject(row);
+    }
+
+    public String getAlbumType() {
+        return albumType;
+    }
+
+
+    public JSONObject getSingerItem() {
+        return singerItem;
     }
 
     @Override
     public int getRowCount() {
-        if (items == null)
+        if (albumItems == null)
             return 0;
-        return items.length();
+        return albumItems.length();
     }
 
     @Override
@@ -45,7 +51,7 @@ public class MusicTableModel extends AbstractTableModel {
         return columnNames.length;
     }
 
-
+    @Override
     public String getColumnName(int columnIndex) {
         return columnNames[columnIndex];
     }
@@ -53,14 +59,18 @@ public class MusicTableModel extends AbstractTableModel {
     // 当图形界面需要渲染第一个单元格的数据的时候，就会调用方法TabelModel的getValueAt(0,0) ，把返回值拿到并显示
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        JSONObject music = items.getJSONObject(rowIndex);
+        JSONObject album = albumItems.getJSONObject(rowIndex);
         switch (columnIndex) {
             case 1:
-                return music.getString("musicName");
+                return album.getString("albumName");
             case 2:
-                return DateTimeUtil.strToTime(music.getString("musicTime"));
+                return singerItem.getString("singerName");
             case 3:
-                return music.getString("musicUrl");
+                return album.getString("publicCompany");
+            case 4:
+                return album.getString("publicDate");
+            case 5:
+                return "购买";
         }
         return null;
     }
@@ -70,6 +80,8 @@ public class MusicTableModel extends AbstractTableModel {
         // 带有按钮列的功能这里必须要返回true不然按钮点击时不会触发编辑效果，也就不会触发事件。
         // TODO 按钮所在列返回True
         if (column == 0) {
+            return true;
+        } else if (column == 5) {
             return true;
         } else {
             return false;

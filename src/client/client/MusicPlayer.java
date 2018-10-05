@@ -26,7 +26,7 @@ public class MusicPlayer {
             musicPlayer = new MusicPlayer(filename);
         } else {
             musicPlayer.setFilePath(filename);
-            System.out.println("music player is already create");
+
         }
         return musicPlayer;
     }
@@ -191,7 +191,6 @@ public class MusicPlayer {
      * @param loop
      */
     public void start(boolean loop) {
-        System.out.println("mainThread: " + mainThread);
         if (mainThread != null) {
             // 关闭之前的线程
             stopMusic();

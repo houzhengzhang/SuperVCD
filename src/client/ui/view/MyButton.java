@@ -10,8 +10,8 @@ import javax.swing.*;
 public class MyButton extends JButton {
 
     private int row;
-
     private int column;
+    private String musicUrl;
 
     public int getRow() {
         return row;
@@ -27,6 +27,14 @@ public class MyButton extends JButton {
 
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public String getMusicUrl() {
+        return musicUrl;
+    }
+
+    public void setMusicUrl(String musicUrl) {
+        this.musicUrl = musicUrl;
     }
 
     public MyButton() {

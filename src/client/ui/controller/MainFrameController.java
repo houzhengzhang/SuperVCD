@@ -1,6 +1,6 @@
 package client.ui.controller;
 
-import client.ui.model.MusicTableModel;
+import client.ui.model.AlbumTableModel;
 import client.ui.view.MainFrame;
 import client.ui.view.PlayBtnEditor;
 import client.ui.view.PlayBtnRender;
@@ -10,14 +10,19 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrameController {
     private MainFrame mainFrame;
-    private JTable musicTable;
+    private JTable albumTable;
     private JComboBox musicComboBox;
     private JPanel mainPanel;
+    private JScrollPane tableScrollPane;
 
-    private MusicTableModel musicTableModel;
+    private AlbumTableModel albumTableModel;
+
+    MusicInfoDialogController musicInfoDialogController;
 
     public MainFrameController() {
         // TODO 主界面 订单信息 个人信息
@@ -33,24 +38,41 @@ public class MainFrameController {
                 // 状态已改变
                 if (e.getStateChange() == 1) {
                     if (e.getItem() != "选择分类") {
-                        musicTableModel.setMusicType(e.getItem().toString());
+                        albumTableModel.setMusicType(e.getItem().toString());
                         // 禁止选择一行
-                        musicTable.setRowSelectionAllowed(false);
+                        albumTable.setRowSelectionAllowed(false);
                         // 重绘列表
-                        musicTable.validate();
-                        musicTable.repaint();
+                        albumTable.updateUI();
+                        //tableScrollPane.validate();
                     }
 
                 }
             }
         });
+
+        albumTable.addMouseListener(new MouseAdapter() {
+            private int row,col;
+            private String albumName;
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                // TODO Auto-generated method stub
+                col = albumTable.columnAtPoint(arg0.getPoint());
+                row = albumTable.rowAtPoint(arg0.getPoint());
+                albumName = (String) albumTable.getValueAt(row,col);
+                if (arg0.getClickCount() == 2 && col == 1) {
+                   musicInfoDialogController.showDialog(albumTableModel.getAlbumType(), albumTableModel.getSingerItem(),albumTableModel.getAlbumAT(row));
+                }
+            }
+
+        });
     }
 
     private void initCompoents() {
         mainFrame = new MainFrame();
-        musicTable = mainFrame.getMusicTable();
+        albumTable = mainFrame.getAlbumTable();
         musicComboBox = mainFrame.getMusicComboBox();
         mainPanel = mainFrame.getMainPanel();
+        tableScrollPane = mainFrame.getTableScrollPane();
         // 初始化 JComboBox
 
         musicComboBox.addItem("选择分类");
@@ -60,24 +82,27 @@ public class MainFrameController {
         musicComboBox.addItem("电子");
 
         // 初始化JTable model
-        musicTableModel = new MusicTableModel();
+        albumTableModel = new AlbumTableModel();
         // 设置居中显示
         DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();//单元格渲染器
         tcr.setHorizontalAlignment(JLabel.CENTER);//居中显示
-        musicTable.setDefaultRenderer(Object.class, tcr);//设置渲染器
+        albumTable.setDefaultRenderer(Object.class, tcr);//设置渲染器
 
         // 设置model
-        musicTable.setModel(musicTableModel);
+        albumTable.setModel(albumTableModel);
         // 设置列宽
         int[] width = new int[]{18, 75, 50, 75, 85, 60};
-        musicTable.setColumnModel(TableColumnUtil.getColumn(musicTable, width));
+        albumTable.setColumnModel(TableColumnUtil.getColumn(albumTable, width));
 
         // 设置渲染器和监听器
-        musicTable.getColumnModel().getColumn(0).setCellRenderer(new PlayBtnRender());
-        musicTable.getColumnModel().getColumn(0).setCellEditor(new PlayBtnEditor());
+        albumTable.getColumnModel().getColumn(0).setCellRenderer(new PlayBtnRender());
+        albumTable.getColumnModel().getColumn(0).setCellEditor(new PlayBtnEditor());
 
-        musicTable.getColumnModel().getColumn(5).setCellRenderer(new PlayBtnRender());
-        musicTable.getColumnModel().getColumn(5).setCellEditor(new PlayBtnEditor());
+//        albumTable.getColumnModel().getColumn(5).setCellRenderer(new PlayBtnRender());
+//        albumTable.getColumnModel().getColumn(5).setCellEditor(new PlayBtnEditor());
+
+        // 初始化专辑详细信息对话框控制器
+        musicInfoDialogController =  new MusicInfoDialogController(mainFrame);
 
     }
 

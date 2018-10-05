@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
         searchField = new JTextField();
         searchBtn = new JButton();
         tableScrollPane = new JScrollPane();
-        musicTable = new JTable();
+        albumTable = new JTable();
         buttonPanel = new JPanel();
         button2 = new JButton();
         button1 = new JButton();
@@ -104,7 +104,7 @@ public class MainFrame extends JFrame {
             mainPanel.setMaximumSize(new Dimension(475, 250));
             mainPanel.setLayout(new GridBagLayout());
             ((GridBagLayout)mainPanel.getLayout()).columnWidths = new int[] {37, 84, 76, 75, 103, 55, 0};
-            ((GridBagLayout)mainPanel.getLayout()).rowHeights = new int[] {25, 152, 0};
+            ((GridBagLayout)mainPanel.getLayout()).rowHeights = new int[] {25, 203, 0};
             ((GridBagLayout)mainPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
             ((GridBagLayout)mainPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
@@ -132,16 +132,16 @@ public class MainFrame extends JFrame {
             //======== tableScrollPane ========
             {
 
-                //---- musicTable ----
-                musicTable.setModel(new DefaultTableModel());
-                tableScrollPane.setViewportView(musicTable);
+                //---- albumTable ----
+                albumTable.setModel(new DefaultTableModel());
+                tableScrollPane.setViewportView(albumTable);
             }
             mainPanel.add(tableScrollPane, new GridBagConstraints(1, 1, 5, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0), 0, 0));
         }
         contentPane.add(mainPanel);
-        mainPanel.setBounds(0, 36, 523, 189);
+        mainPanel.setBounds(0, 36, 523, 239);
 
         //======== buttonPanel ========
         {
@@ -170,7 +170,7 @@ public class MainFrame extends JFrame {
                 new Insets(0, 0, 5, 0), 0, 0));
         }
         contentPane.add(buttonPanel);
-        buttonPanel.setBounds(-5, 250, 523, buttonPanel.getPreferredSize().height);
+        buttonPanel.setBounds(0, 275, 523, buttonPanel.getPreferredSize().height);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -205,15 +205,15 @@ public class MainFrame extends JFrame {
     private JTextField searchField;
     private JButton searchBtn;
     private JScrollPane tableScrollPane;
-    private JTable musicTable;
+    private JTable albumTable;
     private JPanel buttonPanel;
     private JButton button2;
     private JButton button1;
     private JButton button3;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
-    public JTable getMusicTable() {
-        return musicTable;
+    public JTable getAlbumTable() {
+        return albumTable;
     }
 
     public JComboBox getMusicComboBox() {
@@ -222,5 +222,10 @@ public class MainFrame extends JFrame {
 
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+
+    // 获取 TableScrollPane 容器
+    public JScrollPane getTableScrollPane() {
+        return tableScrollPane;
     }
 }
