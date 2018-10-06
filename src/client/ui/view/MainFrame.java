@@ -30,17 +30,17 @@ public class MainFrame extends JFrame {
         editMenu = new JMenu();
         menuItem7 = new JMenuItem();
         menu1 = new JMenu();
+        tabbedPane1 = new JTabbedPane();
+        musicPanel = new JPanel();
         mainPanel = new JPanel();
         musicClassLabel = new JLabel();
         musicComboBox = new JComboBox();
-        searchField = new JTextField();
-        searchBtn = new JButton();
         tableScrollPane = new JScrollPane();
         albumTable = new JTable();
-        buttonPanel = new JPanel();
-        button2 = new JButton();
-        button1 = new JButton();
-        button3 = new JButton();
+        orderPanel = new JPanel();
+        scrollPane1 = new JScrollPane();
+        orderTable = new JTable();
+        label1 = new JLabel();
 
         //======== this ========
         Container contentPane = getContentPane();
@@ -94,83 +94,101 @@ public class MainFrame extends JFrame {
                 }
                 topMenuBar.add(menu1);
             }
-            topPanel.add(topMenuBar, "cell 0 0 4 1");
+            topPanel.add(topMenuBar, "cell 0 0 4 2");
         }
         contentPane.add(topPanel);
-        topPanel.setBounds(0, 0, 523, topPanel.getPreferredSize().height);
+        topPanel.setBounds(0, 0, 523, 30);
 
-        //======== mainPanel ========
+        //======== tabbedPane1 ========
         {
-            mainPanel.setMaximumSize(new Dimension(475, 250));
-            mainPanel.setLayout(new GridBagLayout());
-            ((GridBagLayout)mainPanel.getLayout()).columnWidths = new int[] {37, 84, 76, 75, 103, 55, 0};
-            ((GridBagLayout)mainPanel.getLayout()).rowHeights = new int[] {25, 203, 0};
-            ((GridBagLayout)mainPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout)mainPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-            //---- musicClassLabel ----
-            musicClassLabel.setText("\u9009\u62e9\u97f3\u4e50\u7c7b\u522b");
-            mainPanel.add(musicClassLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
-            mainPanel.add(musicComboBox, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- searchField ----
-            searchField.setMinimumSize(new Dimension(64, 25));
-            mainPanel.add(searchField, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- searchBtn ----
-            searchBtn.setText("\u641c\u7d22");
-            mainPanel.add(searchBtn, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
-
-            //======== tableScrollPane ========
+            //======== musicPanel ========
             {
+                musicPanel.setLayout(null);
 
-                //---- albumTable ----
-                albumTable.setModel(new DefaultTableModel());
-                tableScrollPane.setViewportView(albumTable);
+                //======== mainPanel ========
+                {
+                    mainPanel.setMaximumSize(new Dimension(475, 250));
+                    mainPanel.setLayout(new GridBagLayout());
+                    ((GridBagLayout)mainPanel.getLayout()).columnWidths = new int[] {25, 112, 76, 75, 97, 52, 0};
+                    ((GridBagLayout)mainPanel.getLayout()).rowHeights = new int[] {25, 203, 0};
+                    ((GridBagLayout)mainPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)mainPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+                    //---- musicClassLabel ----
+                    musicClassLabel.setText("\u9009\u62e9\u97f3\u4e50\u7c7b\u522b");
+                    mainPanel.add(musicClassLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
+                    mainPanel.add(musicComboBox, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //======== tableScrollPane ========
+                    {
+
+                        //---- albumTable ----
+                        albumTable.setModel(new DefaultTableModel());
+                        tableScrollPane.setViewportView(albumTable);
+                    }
+                    mainPanel.add(tableScrollPane, new GridBagConstraints(1, 1, 5, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                musicPanel.add(mainPanel);
+                mainPanel.setBounds(0, 10, 515, 235);
+
+                { // compute preferred size
+                    Dimension preferredSize = new Dimension();
+                    for(int i = 0; i < musicPanel.getComponentCount(); i++) {
+                        Rectangle bounds = musicPanel.getComponent(i).getBounds();
+                        preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                        preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    }
+                    Insets insets = musicPanel.getInsets();
+                    preferredSize.width += insets.right;
+                    preferredSize.height += insets.bottom;
+                    musicPanel.setMinimumSize(preferredSize);
+                    musicPanel.setPreferredSize(preferredSize);
+                }
             }
-            mainPanel.add(tableScrollPane, new GridBagConstraints(1, 1, 5, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0), 0, 0));
+            tabbedPane1.addTab("\u97f3\u4e50", musicPanel);
+
+            //======== orderPanel ========
+            {
+                orderPanel.setLayout(null);
+
+                //======== scrollPane1 ========
+                {
+                    scrollPane1.setViewportView(orderTable);
+                }
+                orderPanel.add(scrollPane1);
+                scrollPane1.setBounds(20, 40, 470, 225);
+
+                //---- label1 ----
+                label1.setText("\u8ba2\u5355\u5185\u7684\u4e13\u8f91\u5217\u8868\uff1a");
+                label1.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
+                orderPanel.add(label1);
+                label1.setBounds(15, 10, 135, 22);
+
+                { // compute preferred size
+                    Dimension preferredSize = new Dimension();
+                    for(int i = 0; i < orderPanel.getComponentCount(); i++) {
+                        Rectangle bounds = orderPanel.getComponent(i).getBounds();
+                        preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                        preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    }
+                    Insets insets = orderPanel.getInsets();
+                    preferredSize.width += insets.right;
+                    preferredSize.height += insets.bottom;
+                    orderPanel.setMinimumSize(preferredSize);
+                    orderPanel.setPreferredSize(preferredSize);
+                }
+            }
+            tabbedPane1.addTab("\u8ba2\u5355\u4fe1\u606f", orderPanel);
         }
-        contentPane.add(mainPanel);
-        mainPanel.setBounds(0, 36, 523, 239);
-
-        //======== buttonPanel ========
-        {
-            buttonPanel.setLayout(new GridBagLayout());
-            ((GridBagLayout)buttonPanel.getLayout()).columnWidths = new int[] {149, 129, 83, 0};
-            ((GridBagLayout)buttonPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-            ((GridBagLayout)buttonPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout)buttonPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-
-            //---- button2 ----
-            button2.setText("\u4e0a\u4e00\u9996");
-            buttonPanel.add(button2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- button1 ----
-            button1.setText("\u64ad\u653e");
-            buttonPanel.add(button1, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- button3 ----
-            button3.setText("\u4e0b\u4e00\u9996");
-            buttonPanel.add(button3, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
-        }
-        contentPane.add(buttonPanel);
-        buttonPanel.setBounds(0, 275, 523, buttonPanel.getPreferredSize().height);
+        contentPane.add(tabbedPane1);
+        tabbedPane1.setBounds(0, 30, 520, 335);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -199,17 +217,17 @@ public class MainFrame extends JFrame {
     private JMenu editMenu;
     private JMenuItem menuItem7;
     private JMenu menu1;
+    private JTabbedPane tabbedPane1;
+    private JPanel musicPanel;
     private JPanel mainPanel;
     private JLabel musicClassLabel;
     private JComboBox musicComboBox;
-    private JTextField searchField;
-    private JButton searchBtn;
     private JScrollPane tableScrollPane;
     private JTable albumTable;
-    private JPanel buttonPanel;
-    private JButton button2;
-    private JButton button1;
-    private JButton button3;
+    private JPanel orderPanel;
+    private JScrollPane scrollPane1;
+    private JTable orderTable;
+    private JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public JTable getAlbumTable() {
@@ -220,12 +238,7 @@ public class MainFrame extends JFrame {
         return musicComboBox;
     }
 
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-
-    // 获取 TableScrollPane 容器
-    public JScrollPane getTableScrollPane() {
-        return tableScrollPane;
+    public JTable getOrderTable() {
+        return orderTable;
     }
 }

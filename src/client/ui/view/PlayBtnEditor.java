@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * @Description:
  */
 public class PlayBtnEditor extends DefaultCellEditor {
-    protected MyButton button;
+    protected PlayButton button;
     private JPanel panel;
     private String label;
 
@@ -38,7 +38,7 @@ public class PlayBtnEditor extends DefaultCellEditor {
     }
 
     private void initButton() {
-        button = new MyButton("播放");
+        button = new PlayButton("播放");
         button.setOpaque(false);
         // 设置按钮的大小及位置。
         button.setBounds(0, 0, 18, 16);
@@ -51,10 +51,10 @@ public class PlayBtnEditor extends DefaultCellEditor {
             private MusicPlayer player = null;
             private int row = -1;
             private String musicUrl;
-            private MyButton button;
+            private PlayButton button;
 
             public void actionPerformed(ActionEvent e) {
-                button = (MyButton) e.getSource();
+                button = (PlayButton) e.getSource();
                 //打印被点击的行和列
 //                System.out.println("test   -row:" + button.getRow() + "column :" + button.getColumn());
 //                // 触发取消编辑的事件，不会调用tableModel的setValue方法。
@@ -94,7 +94,7 @@ public class PlayBtnEditor extends DefaultCellEditor {
 
         button.setRow(row);
         button.setColumn(column);
-        // 获取当前按钮对应的歌曲地址
+        // 设置当前按钮对应的歌曲地址
         String musicUrl = (String) table.getValueAt(row, 3);
         button.setMusicUrl(musicUrl);
 

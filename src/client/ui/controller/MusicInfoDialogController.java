@@ -6,15 +6,12 @@ import client.ui.view.MusicInfoDialog;
 import client.ui.view.PlayBtnEditor;
 import client.ui.view.PlayBtnRender;
 import client.utils.TableColumnUtil;
-import javafx.scene.control.Tab;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * @Auther: Administrator
@@ -37,10 +34,6 @@ public class MusicInfoDialogController {
 
     // 定义model
     private MusicTableModel musicTableModel;
-
-
-    // 获取客户端连接
-    private SocketClient client = SocketClient.getSocketClient();
 
     public MusicInfoDialogController(JFrame parentFrame) {
         initCompoents(parentFrame);
@@ -87,7 +80,7 @@ public class MusicInfoDialogController {
         musicTable.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
     }
 
-    public void setAlbumnId(int albumnId){
+    private void setAlbumnId(int albumnId){
         musicTableModel.setAlbumId(albumnId);
     }
 

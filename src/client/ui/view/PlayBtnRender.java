@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class PlayBtnRender implements TableCellRenderer {
     private JPanel panel;
-    private MyButton button;
+    private PlayButton button;
 
     public PlayBtnRender() {
         initButton();
@@ -20,7 +20,7 @@ public class PlayBtnRender implements TableCellRenderer {
 
     private void initButton() {
         // 设置按钮的大小及位置。
-        button = new MyButton("播放", new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\播放.png"));
+        button = new PlayButton("播放", new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\播放.png"));
         button.setRolloverIcon(new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\播放2.png"));
         button.setOpaque(false);
         button.setBounds(0, 0, 18, 15);

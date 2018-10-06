@@ -285,7 +285,7 @@ public class LoginFrame extends JFrame {
 
                 //---- label6 ----
                 label6.setText("text");
-                label6.setIcon(new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client.resources\\5e37dca7ecd87ee1578ff433bd143b91.jpg"));
+                label6.setIcon(new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\main.resources\\5e37dca7ecd87ee1578ff433bd143b91.jpg"));
                 userPanel.add(label6, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
                     GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
                     new Insets(0, 0, 0, 0), 0, 0));

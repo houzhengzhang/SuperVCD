@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.table.AbstractTableModel;
-import java.sql.Time;
 
 /**
  * @Auther: Administrator
@@ -23,6 +22,10 @@ public class MusicTableModel extends AbstractTableModel {
         items = client.selectMusic(albumId);
     }
 
+    /**
+     * 计算专辑内歌曲总长度
+     * @return
+     */
     public String getAllMusicTime(){
         String timeStr1 =  items.getJSONObject(0).getString("musicTime");
         for (int i = 1; i < items.length() ; i++) {
@@ -30,7 +33,6 @@ public class MusicTableModel extends AbstractTableModel {
             timeStr1 = DateTimeUtil.addTimeStr(timeStr1, timeStr2);
         }
         return timeStr1;
-
     }
 
     @Override

@@ -116,9 +116,9 @@ public class MusicInfoDialog extends JDialog {
             panel2.setBounds(10, 0, 160, 140);
 
             //---- albumImage ----
-            albumImage.setIcon(new ImageIcon("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\d379526dc1ff624ed2c79527453d7dac.jpg"));
+            albumImage.setIcon(null);
             panel1.add(albumImage);
-            albumImage.setBounds(180, 10, 210, 165);
+            albumImage.setBounds(195, 10, 195, 165);
 
             //======== panel3 ========
             {

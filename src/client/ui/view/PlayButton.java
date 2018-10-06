@@ -7,7 +7,7 @@ import javax.swing.*;
  * @Date: 2018/10/2 18:33
  * @Description:
  */
-public class MyButton extends JButton {
+public class PlayButton extends JButton {
 
     private int row;
     private int column;
@@ -37,14 +37,14 @@ public class MyButton extends JButton {
         this.musicUrl = musicUrl;
     }
 
-    public MyButton() {
+    public PlayButton() {
 
     }
 
-    public MyButton(String name) {
+    public PlayButton(String name) {
         super(name);
     }
-    public MyButton(String name, ImageIcon imageIcon) {
+    public PlayButton(String name, ImageIcon imageIcon) {
         super(name, imageIcon);
     }
 
