@@ -30,4 +30,11 @@ public class OrderPanelController {
         orderTable.setModel(orderTableModel);
     }
 
+    public OrderTableModel getOrderTableModel() {
+        return orderTableModel;
+    }
+
+    public JTable getOrderTable() {
+        return orderTable;
+    }
 }

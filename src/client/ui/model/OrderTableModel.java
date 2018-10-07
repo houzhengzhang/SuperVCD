@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: Administrator
@@ -16,27 +19,17 @@ public class OrderTableModel extends AbstractTableModel {
     private String[] columnNames = {"专辑名", "歌手", "价格"};
     // 获取客户端连接
     private SocketClient client = SocketClient.getSocketClient();
-    private JSONArray items = null;
+    private List<String[]> items = new ArrayList<>();
 
-    public void setAlbumId(int albumId) {
-        items = client.selectMusic(albumId);
-    }
-
-    public String getAllMusicTime(){
-        String timeStr1 =  items.getJSONObject(0).getString("musicTime");
-        for (int i = 1; i < items.length() ; i++) {
-            String timeStr2 = items.getJSONObject(i).getString("musicTime");
-            timeStr1 = DateTimeUtil.addTimeStr(timeStr1, timeStr2);
-        }
-        return timeStr1;
-
+    public void setAlbumId(String[] values) {
+        items.add(values);
     }
 
     @Override
     public int getRowCount() {
         if (items == null)
             return 0;
-        return items.length();
+        return items.size();
     }
 
     @Override
@@ -52,14 +45,14 @@ public class OrderTableModel extends AbstractTableModel {
     // 当图形界面需要渲染第一个单元格的数据的时候，就会调用方法TabelModel的getValueAt(0,0) ，把返回值拿到并显示
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        JSONObject music = items.getJSONObject(rowIndex);
+        String[] music = items.get(rowIndex);
         switch (columnIndex) {
+            case 0:
+                return music[1];
             case 1:
-                return music.getString("musicName");
+                return music[2];
             case 2:
-                return DateTimeUtil.strToTime(music.getString("musicTime"));
-            case 3:
-                return music.getString("musicUrl");
+                return music[3];
         }
         return null;
     }
