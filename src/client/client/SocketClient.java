@@ -1,7 +1,7 @@
 package client.client;
 
 import client.utils.PackMsgUtil;
-import client.utils.StateMsg;
+import client.utils.StatusMsg;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import server.utils.BytesUtils;
@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,24 +49,33 @@ public class SocketClient {
         outputStream.flush();
     }
 
-    private StateMsg receiveStateMsg() {
+    private Map<String, Object> receiveStatusMsg() {
         // 处理服务端返回的数据
+        Map<String, Object> map = new HashMap<>();
         byte[] bytes = new byte[4];
         try {
             inputStream.read(bytes);
             int length = BytesUtils.byteArray2Int(bytes);
-            if (length == -1)
-                return StateMsg.SERVER_DISCONNECT_ERROR;
+            if (length == -1) {
+                map.put("status", StatusMsg.SERVER_DISCONNECT_ERROR);
+                return map;
+            }
             bytes = new byte[length];
             inputStream.read(bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
         // 返回枚举
-        JSONObject json = new JSONObject(new String(bytes));
-        int code = json.getInt("code");
-        // TODO 重写 valueof 方法
-        return StateMsg.getStateByCode(code);
+        JSONObject jsonReceive = new JSONObject(new String(bytes));
+        int code = jsonReceive.getJSONObject("status").getInt("code");
+
+        map.put("status", StatusMsg.getStateByCode(code));
+        // 登录成功返回用户信息
+        if (code == StatusMsg.LOGIN_SUCCESS_HINT.getCode()) {
+            map.put("user", jsonReceive.getJSONObject("result"));
+        }
+
+        return map;
     }
 
     /**
@@ -100,7 +110,7 @@ public class SocketClient {
      * @param userPassword
      * @return
      */
-    public StateMsg login(String userName, String userPassword) {
+    public Map<String, Object> login(String userName, String userPassword) {
         Map<String, Object> map = new HashMap<>();
         map.put("userName", userName);
         map.put("userPassword", userPassword);
@@ -112,7 +122,7 @@ public class SocketClient {
             e.printStackTrace();
         }
         // 服务器返回的消息
-        return receiveStateMsg();
+        return receiveStatusMsg();
     }
 
     /**
@@ -122,7 +132,7 @@ public class SocketClient {
      * @param userPassword
      * @return
      */
-    public StateMsg registe(String userName, String userPassword) {
+    public Map<String, Object> registe(String userName, String userPassword) {
         Map<String, Object> map = new HashMap<>();
         map.put("userName", userName);
         map.put("userPassword", userPassword);
@@ -134,7 +144,7 @@ public class SocketClient {
             e.printStackTrace();
         }
         // 服务器返回的消息
-        return receiveStateMsg();
+        return receiveStatusMsg();
     }
 
 
@@ -189,6 +199,7 @@ public class SocketClient {
 
     /**
      * 查询专辑请求
+     *
      * @param albumName
      * @return
      */
@@ -207,6 +218,7 @@ public class SocketClient {
 
     /**
      * 查询歌手请求
+     *
      * @param albumId
      * @return
      */
@@ -220,6 +232,44 @@ public class SocketClient {
             e.printStackTrace();
         }
         return receiveJSONObject();
+    }
+
+    /**
+     * 提交订单信息
+     *
+     * @param userId
+     * @param albumIdArr
+     */
+    public JSONObject submitOrder(int userId, int[] albumIdArr) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        String albumStr = Arrays.toString(albumIdArr);
+        map.put("albumIdArr", albumStr.substring(1, albumStr.length() - 1));
+        System.out.println("发送的albumIdArr substr: " + albumStr.substring(1, albumStr.length() - 1));
+        byte[] msgByte = PackMsgUtil.packMsg("submitOrder", map);
+        try {
+            sendMsg(msgByte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return receiveJSONObject();
+
+    }
+    /**
+     * 查询音乐类型
+     *
+     * @return
+     */
+    public JSONArray selectType() {
+        Map<String, Object> map = new HashMap<>();
+        byte[] msgByte = PackMsgUtil.packMsg("selectType", map);
+        try {
+            sendMsg(msgByte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return receiveInfoArray();
     }
 
 }

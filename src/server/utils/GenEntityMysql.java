@@ -14,7 +14,7 @@ import java.util.Date;
 public class GenEntityMysql {
 
     private String packageOutPath = "server.entity";//指定实体生成所在包的路径
-    private String tablename = "music_type";//表名
+    private String tablename = "user_info";//表名
     private String[] colnames; // 列名数组
     private String[] colTypes; //列名类型数组
     private int[] colSizes; //列名大小数组
@@ -244,6 +244,8 @@ public class GenEntityMysql {
             return "Blod";
         }else if (sqlType.equalsIgnoreCase("time")) {
             return "Time";
+        }else if (sqlType.equalsIgnoreCase("date")) {
+            return "Date";
         }
 
         return null;

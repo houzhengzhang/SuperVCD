@@ -11,11 +11,12 @@ public class BytesUtils {
 
     /**
      * 合并 byte 数组
+     *
      * @param bytes1
      * @param bytes2
      * @return
      */
-    public static byte[] addBytes(byte[] bytes1, byte[] bytes2) {
+    public static byte[] connectBytes(byte[] bytes1, byte[] bytes2) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes1.length + bytes2.length);
         baos.write(bytes1, 0, bytes1.length);
         baos.write(bytes2, 0, bytes2.length);
@@ -25,12 +26,13 @@ public class BytesUtils {
 
     /**
      * 重载
+     *
      * @param bytes1
      * @param bytes2
      * @param bytes3
      * @return
      */
-    public static byte[] addBytes(byte[] bytes1, byte[] bytes2, byte[] bytes3) {
+    public static byte[] connectBytes(byte[] bytes1, byte[] bytes2, byte[] bytes3) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes1.length + bytes2.length + bytes3.length);
         baos.write(bytes1, 0, bytes1.length);
         baos.write(bytes2, 0, bytes2.length);
@@ -41,29 +43,30 @@ public class BytesUtils {
 
     /**
      * int 转 byte 数组
-     * @param i
+     *
+     * @param a
      * @return
      */
-    public static byte[] int2ByteArrays(int i) {
-        byte[] result = new byte[4];
-        result[0] = (byte) ((i >> 24) & 0xFF);
-        result[1] = (byte) ((i >> 16) & 0xFF);
-        result[2] = (byte) ((i >> 8) & 0xFF);
-        result[3] = (byte) (i & 0xFF);
-        return result;
+    public static byte[] int2ByteArrays(int a) {
+        return new byte[]{
+                (byte) ((a >> 24) & 0xFF),
+                (byte) ((a >> 16) & 0xFF),
+                (byte) ((a >> 8) & 0xFF),
+                (byte) (a & 0xFF)
+        };
     }
 
     /**
      * byte 数组 转 int
+     *
      * @param b
      * @return
      */
     public static int byteArray2Int(byte[] b) {
-        int intValue = 0;
-        for (int i = 0; i < b.length; i++) {
-            intValue += (b[i] & 0xFF) << (8 * (3 - i)); //int占4个字节（0，1，2，3）
-        }
-        return intValue;
+        return b[3] & 0xFF |
+                (b[2] & 0xFF) << 8 |
+                (b[1] & 0xFF) << 16 |
+                (b[0] & 0xFF) << 24;
     }
 
     public static void main(String[] args) {

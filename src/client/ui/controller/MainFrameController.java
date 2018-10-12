@@ -1,14 +1,14 @@
 package client.ui.controller;
 
+import client.client.SocketClient;
 import client.ui.model.AlbumTableModel;
 import client.ui.view.MainFrame;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MainFrameController {
     private MainFrame mainFrame;
@@ -23,6 +23,9 @@ public class MainFrameController {
     private OrderPanelController orderPanelController;
     private MusicPanelController musicPanelController;
 
+    // 获取客户端连接
+    private SocketClient client = SocketClient.getSocketClient();
+
 
     public MainFrameController() {
         // TODO 主界面 订单信息 个人信息
@@ -35,7 +38,7 @@ public class MainFrameController {
     private void initController() {
         // 订单控制器
         orderPanelController = new OrderPanelController(orderTable);
-        orderPanelController.setSubmitOrder(submitOrderBtn);
+        orderPanelController.setSubmitOrderBtn(submitOrderBtn);
 
         // 将table引用传给子控制器
         orderPanelController.setOrderTable(orderTable);
@@ -82,10 +85,10 @@ public class MainFrameController {
 
         // 初始化 JComboBox
         musicComboBox.addItem("选择分类");
-        musicComboBox.addItem("流行");
-        musicComboBox.addItem("摇滚");
-        musicComboBox.addItem("民谣");
-        musicComboBox.addItem("电子");
+        JSONArray jsonArray = client.selectType();
+        for (int i = 0; i <jsonArray.length() ; i++) {
+            musicComboBox.addItem(jsonArray.getJSONObject(i).getString("typeName"));
+        }
 
 
     }

@@ -23,4 +23,22 @@ public class AlbumModel {
         List<AlbumInfo> albumInfoList = ResultSetHandler.doHandler(resultSet, AlbumInfo.class);
         return albumInfoList.get(0);
     }
+
+    public static int getSingerId(int albumId) throws Exception {
+        Connection conn = DbUtil.getCon();
+        String sql = "select singer_id from album_info where id=?";
+        String[] param = {albumId + ""};
+        ResultSet resultSet = DbUtil.executeQuery(conn, sql, param);
+        List<AlbumInfo> albumInfoList = ResultSetHandler.doHandler(resultSet, AlbumInfo.class);
+        return albumInfoList.get(0).getSingerId();
+    }
+
+    public static List<AlbumInfo> queryByType(String typeName) throws Exception {
+        Connection conn = DbUtil.getCon();
+        String sql = "select * from album_info where type_id=(select id from music_type where type_name=?)";
+        String[] param = {typeName + ""};
+        ResultSet resultSet = DbUtil.executeQuery(conn, sql, param);
+        List<AlbumInfo> albumInfoList = ResultSetHandler.doHandler(resultSet, AlbumInfo.class);
+        return albumInfoList;
+    }
 }

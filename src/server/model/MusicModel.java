@@ -23,15 +23,22 @@ public class MusicModel {
     public static List<MusicInfo> queryByType(String typeName) throws Exception {
         // TODO 异常处理的位置
         Connection conn = DbUtil.getCon();
-
         String sql = "select * from music_info where type_id=(select id from music_type where type_name=?)";
         String[] param = {typeName};
         ResultSet resultSet = DbUtil.executeQuery(conn, sql, param);
         List<MusicInfo> musicInfoList = ResultSetHandler.doHandler(resultSet, MusicInfo.class);
-        for(MusicInfo music : musicInfoList){
-                music.setSinger(SingerModel.queryById(music.getSingerId()));
-                music.setAlbum(AlbumModel.queryById(music.getAlbumId()));
-        }
+        // TODO 判断结果为空
+        return musicInfoList;
+    }
+
+    public static List<MusicInfo> queryByAlbumId(int albumId) throws Exception {
+        // TODO 异常处理的位置
+        Connection conn = DbUtil.getCon();
+
+        String sql = "select * from music_info where album_id=?";
+        String[] param = {albumId + ""};
+        ResultSet resultSet = DbUtil.executeQuery(conn, sql, param);
+        List<MusicInfo> musicInfoList = ResultSetHandler.doHandler(resultSet, MusicInfo.class);
         // TODO 判断结果为空
         return musicInfoList;
     }

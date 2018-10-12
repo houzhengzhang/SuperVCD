@@ -1,5 +1,6 @@
 package client.ui.controller;
 
+import client.client.MusicPlayer;
 import client.client.SocketClient;
 import client.ui.model.MusicTableModel;
 import client.ui.view.MusicInfoDialog;
@@ -12,6 +13,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * @Auther: Administrator
@@ -36,12 +39,25 @@ public class MusicInfoDialogController {
     private MusicTableModel musicTableModel;
 
     public MusicInfoDialogController(JFrame parentFrame) {
-        initCompoents(parentFrame);
+        this.parentFrame = parentFrame;
+        initCompoents();
+        initCloseListeners();
+    }
+
+    private void initCloseListeners() {
+        musicInfoDialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                MusicPlayer musicPlayer = MusicPlayer.getMusicPlayer();
+                if (musicPlayer != null)
+                    musicPlayer.stop();
+            }
+        });
     }
 
 
-    private void initCompoents(JFrame parentFrame) {
-        this.parentFrame = parentFrame;
+    private void initCompoents() {
         musicInfoDialog = new MusicInfoDialog(parentFrame);
         musicTable = musicInfoDialog.getMusicTable();
         // 获取label引用
@@ -80,7 +96,7 @@ public class MusicInfoDialogController {
         musicTable.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
     }
 
-    private void setAlbumnId(int albumnId){
+    private void setAlbumnId(int albumnId) {
         musicTableModel.setAlbumId(albumnId);
     }
 

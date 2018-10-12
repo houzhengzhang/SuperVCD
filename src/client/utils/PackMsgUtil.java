@@ -28,7 +28,7 @@ public class PackMsgUtil {
         int length = msgByte.length;
         // 将消息长度加在首部
         // 消息格式： 长度 + 消息
-        msgByte = BytesUtils.addBytes(BytesUtils.int2ByteArrays(length), msgByte);
+        msgByte = BytesUtils.connectBytes(BytesUtils.int2ByteArrays(length), msgByte);
         return msgByte;
     }
 }

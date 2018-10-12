@@ -47,7 +47,7 @@ public class LoginFrameController {
      */
     private void initListeners() {
 
-        // 没有注册请先注册事件
+        // 没有注册,请先注册事件
         noRegistLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

@@ -5,6 +5,7 @@
 package client.ui.view;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 /**
@@ -12,11 +13,6 @@ import javax.swing.*;
  */
 public class MusicInfoDialog extends JDialog {
     public MusicInfoDialog(Frame owner) {
-        super(owner);
-        initComponents();
-    }
-
-    public MusicInfoDialog(Dialog owner) {
         super(owner);
         initComponents();
     }
@@ -252,7 +248,6 @@ public class MusicInfoDialog extends JDialog {
     private JScrollPane scrollPane1;
     private JTable musicTable;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     public JLabel getSingerText() {
         return singerText;

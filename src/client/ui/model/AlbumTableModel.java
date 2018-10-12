@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
  * @Description:
  */
 public class AlbumTableModel extends AbstractTableModel {
-    private String[] columnNames = {"专辑名", "歌手", "出版公司", "出版时间", "", "album_id"};
+    private String[] columnNames = {"专辑名", "歌手", "出版公司", "出版时间", "价格", "", "album_id"};
     // 获取客户端连接
     private SocketClient client = SocketClient.getSocketClient();
     private JSONArray albumItems = null;
@@ -70,8 +70,10 @@ public class AlbumTableModel extends AbstractTableModel {
             case 3:
                 return album.getString("publicDate");
             case 4:
-                return "购买";
+                return album.getInt("price") + "￥";
             case 5:
+                return "购买";
+            case 6:
                 return album.getInt("id");
         }
         return null;
@@ -80,9 +82,9 @@ public class AlbumTableModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int row, int column) {
         // 带有按钮列的功能这里必须要返回true不然按钮点击时不会触发编辑效果，也就不会触发事件。
-        if (column == 4) {
+        if (column == 5) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

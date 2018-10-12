@@ -32,15 +32,21 @@ public class MainFrame extends JFrame {
         menu1 = new JMenu();
         tabbedPane1 = new JTabbedPane();
         musicPanel = new JPanel();
-        mainPanel = new JPanel();
         musicClassLabel = new JLabel();
         musicComboBox = new JComboBox();
         tableScrollPane = new JScrollPane();
         albumTable = new JTable();
+        textField1 = new JTextField();
+        button1 = new JButton();
         orderPanel = new JPanel();
         scrollPane1 = new JScrollPane();
         orderTable = new JTable();
         label1 = new JLabel();
+        submitOrderBtn = new JButton();
+        userPanel = new JPanel();
+        label2 = new JLabel();
+        scrollPane2 = new JScrollPane();
+        table1 = new JTable();
 
         //======== this ========
         Container contentPane = getContentPane();
@@ -106,37 +112,29 @@ public class MainFrame extends JFrame {
             {
                 musicPanel.setLayout(null);
 
-                //======== mainPanel ========
+                //---- musicClassLabel ----
+                musicClassLabel.setText("\u9009\u62e9\u97f3\u4e50\u7c7b\u522b");
+                musicPanel.add(musicClassLabel);
+                musicClassLabel.setBounds(15, 10, 107, 29);
+                musicPanel.add(musicComboBox);
+                musicComboBox.setBounds(110, 10, 93, 29);
+
+                //======== tableScrollPane ========
                 {
-                    mainPanel.setMaximumSize(new Dimension(475, 250));
-                    mainPanel.setLayout(new GridBagLayout());
-                    ((GridBagLayout)mainPanel.getLayout()).columnWidths = new int[] {25, 112, 76, 75, 97, 52, 0};
-                    ((GridBagLayout)mainPanel.getLayout()).rowHeights = new int[] {25, 203, 0};
-                    ((GridBagLayout)mainPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)mainPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-                    //---- musicClassLabel ----
-                    musicClassLabel.setText("\u9009\u62e9\u97f3\u4e50\u7c7b\u522b");
-                    mainPanel.add(musicClassLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
-                    mainPanel.add(musicComboBox, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
-
-                    //======== tableScrollPane ========
-                    {
-
-                        //---- albumTable ----
-                        albumTable.setModel(new DefaultTableModel());
-                        tableScrollPane.setViewportView(albumTable);
-                    }
-                    mainPanel.add(tableScrollPane, new GridBagConstraints(1, 1, 5, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
+                    //---- albumTable ----
+                    albumTable.setModel(new DefaultTableModel());
+                    tableScrollPane.setViewportView(albumTable);
                 }
-                musicPanel.add(mainPanel);
-                mainPanel.setBounds(0, 10, 515, 235);
+                musicPanel.add(tableScrollPane);
+                tableScrollPane.setBounds(10, 45, 514, 203);
+                musicPanel.add(textField1);
+                textField1.setBounds(85, 260, 345, textField1.getPreferredSize().height);
+
+                //---- button1 ----
+                button1.setText("\u641c\u7d22");
+                musicPanel.add(button1);
+                button1.setBounds(new Rectangle(new Point(450, 260), button1.getPreferredSize()));
 
                 { // compute preferred size
                     Dimension preferredSize = new Dimension();
@@ -163,13 +161,18 @@ public class MainFrame extends JFrame {
                     scrollPane1.setViewportView(orderTable);
                 }
                 orderPanel.add(scrollPane1);
-                scrollPane1.setBounds(20, 40, 470, 225);
+                scrollPane1.setBounds(20, 40, 470, 230);
 
                 //---- label1 ----
                 label1.setText("\u8ba2\u5355\u5185\u7684\u4e13\u8f91\u5217\u8868\uff1a");
                 label1.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
                 orderPanel.add(label1);
                 label1.setBounds(15, 10, 135, 22);
+
+                //---- submitOrderBtn ----
+                submitOrderBtn.setText("\u63d0\u4ea4\u8ba2\u5355");
+                orderPanel.add(submitOrderBtn);
+                submitOrderBtn.setBounds(new Rectangle(new Point(400, 290), submitOrderBtn.getPreferredSize()));
 
                 { // compute preferred size
                     Dimension preferredSize = new Dimension();
@@ -186,9 +189,41 @@ public class MainFrame extends JFrame {
                 }
             }
             tabbedPane1.addTab("\u8ba2\u5355\u4fe1\u606f", orderPanel);
+
+            //======== userPanel ========
+            {
+                userPanel.setLayout(null);
+
+                //---- label2 ----
+                label2.setText("\u5df2\u8d2d\u4e70\u4e13\u8f91\u5217\u8868\uff1a");
+                userPanel.add(label2);
+                label2.setBounds(20, 10, 240, 25);
+
+                //======== scrollPane2 ========
+                {
+                    scrollPane2.setViewportView(table1);
+                }
+                userPanel.add(scrollPane2);
+                scrollPane2.setBounds(20, 40, 470, 190);
+
+                { // compute preferred size
+                    Dimension preferredSize = new Dimension();
+                    for(int i = 0; i < userPanel.getComponentCount(); i++) {
+                        Rectangle bounds = userPanel.getComponent(i).getBounds();
+                        preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                        preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    }
+                    Insets insets = userPanel.getInsets();
+                    preferredSize.width += insets.right;
+                    preferredSize.height += insets.bottom;
+                    userPanel.setMinimumSize(preferredSize);
+                    userPanel.setPreferredSize(preferredSize);
+                }
+            }
+            tabbedPane1.addTab("\u7528\u6237", userPanel);
         }
         contentPane.add(tabbedPane1);
-        tabbedPane1.setBounds(0, 30, 520, 335);
+        tabbedPane1.setBounds(0, 30, 580, 375);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -219,15 +254,21 @@ public class MainFrame extends JFrame {
     private JMenu menu1;
     private JTabbedPane tabbedPane1;
     private JPanel musicPanel;
-    private JPanel mainPanel;
     private JLabel musicClassLabel;
     private JComboBox musicComboBox;
     private JScrollPane tableScrollPane;
     private JTable albumTable;
+    private JTextField textField1;
+    private JButton button1;
     private JPanel orderPanel;
     private JScrollPane scrollPane1;
     private JTable orderTable;
     private JLabel label1;
+    private JButton submitOrderBtn;
+    private JPanel userPanel;
+    private JLabel label2;
+    private JScrollPane scrollPane2;
+    private JTable table1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public JTable getAlbumTable() {
@@ -240,5 +281,9 @@ public class MainFrame extends JFrame {
 
     public JTable getOrderTable() {
         return orderTable;
+    }
+
+    public JButton getSubmitOrderBtn() {
+        return submitOrderBtn;
     }
 }

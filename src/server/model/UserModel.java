@@ -13,31 +13,6 @@ import java.util.List;
 
 public class UserModel {
 
-    /**
-     * 查询所有用户
-     *
-     * @return
-     * @throws Exception
-     */
-    public static List<UserInfo> queryAll() throws Exception {
-        List<UserInfo> list = new ArrayList<UserInfo>();
-        Connection conn = DbUtil.getCon();
-        String sql = "select * from user_info";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        //pstmt.setString(1, "user_info");
-
-        ResultSet resultSet = pstmt.executeQuery();
-
-        while (resultSet.next()) {
-            UserInfo userInfo = new UserInfo(resultSet.getString("user_name"),
-                    resultSet.getString("user_password"));
-
-            list.add(userInfo);
-        }
-
-        return list;
-    }
-
 
     public static ResultSet queryResult() throws Exception {
         List<UserInfo> list = new ArrayList<UserInfo>();
@@ -52,14 +27,13 @@ public class UserModel {
 
     public static UserInfo queryByName(String userName) throws Exception {
         Connection conn = DbUtil.getCon();
-        String sql = "select user_id,user_name,user_password from user_info where user_name=?";
-        ResultSet resultSet = DbUtil.executeQuery(conn, sql, userName);
-        UserInfo userInfo = null;
-        if (resultSet.next()) {
-            userInfo = new UserInfo(resultSet.getString("user_name"),
-                    resultSet.getString("user_password"));
-        }
-        return userInfo;
+        String sql = "select id,user_name,user_password from user_info where user_name=?";
+        String[] param = {userName};
+        ResultSet resultSet = DbUtil.executeQuery(conn, sql, param);
+        List<UserInfo> userInfoList = ResultSetHandler.doHandler(resultSet, UserInfo.class);
+        if (userInfoList.size() > 0)
+            return userInfoList.get(0);
+        else return null;
     }
 
 

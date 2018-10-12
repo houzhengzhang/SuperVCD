@@ -11,7 +11,7 @@ public class MusicPlayer {
     // 记录音频是否播放
     private volatile boolean run = true;
     // 线程退出标志
-    public volatile boolean exit = false;
+    private volatile boolean exit = false;
     //播放音频的任务线程
     private Thread mainThread = null;
 
@@ -27,6 +27,13 @@ public class MusicPlayer {
         } else {
             musicPlayer.setFilePath(filename);
 
+        }
+        return musicPlayer;
+    }
+
+    public static MusicPlayer getMusicPlayer() {
+        if (musicPlayer == null) {
+            return null;
         }
         return musicPlayer;
     }
@@ -256,7 +263,7 @@ public class MusicPlayer {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        MusicPlayer player = new MusicPlayer("D:\\JavaProject\\SuperVCD\\src\\client\\resources\\爱的代价.wav");
+        MusicPlayer player = new MusicPlayer("D:\\JavaProject\\SuperVCD\\src\\main\\resources\\爱的代价.wav");
         player.start(true);
         TimeUnit.SECONDS.sleep(5);
         player.pause();                                          //暂停播放音频

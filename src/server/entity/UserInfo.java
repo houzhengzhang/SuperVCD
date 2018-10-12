@@ -1,46 +1,38 @@
 package server.entity;
 
-import org.json.JSONObject;
+/**
+ * user_info 实体类
+ */ 
+
 
 public class UserInfo {
-    private int userId;
-    private String userName;
-    private String userPassword;
+	private int id;
+	private String userName;
+	private String userPassword;
 
-    public UserInfo() {
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public UserInfo(String userName, String userPassword) {
-        this.userName = userName;
-        this.userPassword = userPassword;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public int getId() {
+        return id;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
 
-    public String toString() {
-        JSONObject json = new JSONObject(this);
-        return json.toString();
+    public String getUserPassword() {
+        return userPassword;
     }
+
 }
+

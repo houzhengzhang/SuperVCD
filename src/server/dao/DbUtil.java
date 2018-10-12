@@ -94,35 +94,12 @@ public class DbUtil {
                 num = pstmt.executeUpdate();
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
-            // 该用户已注册
+            e.printStackTrace();
             num = 0;
         }
         return num;
 
     }
 
-    /**
-     * 执行查询
-     *
-     * @param conn
-     * @param sql
-     * @param param
-     * @return
-     */
-    public static ResultSet executeQuery(Connection conn, String sql, String param) {
-        PreparedStatement pstmt = null;
-        ResultSet result = null;
-        try {
-            pstmt = conn.prepareStatement(sql);
-            if (param != null) {
-                pstmt.setString(1, param);
-                result = pstmt.executeQuery();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
 }

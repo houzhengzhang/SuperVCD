@@ -1,10 +1,5 @@
 package server.utils;
 
-import org.json.JSONObject;
-import server.utils.BytesUtils;
-
-import java.util.Map;
-
 
 /**
  * @Auther: Administrator
@@ -21,9 +16,10 @@ public class PackMsgUtil {
         byte[] msgByte = msgStr.getBytes();
         // 计算消息长度
         int length = msgByte.length;
+        System.out.println("发送包长度： " + length);
         // 将消息长度加在首部
         // 消息格式： 长度 + 消息
-        msgByte = BytesUtils.addBytes(BytesUtils.int2ByteArrays(length), msgByte);
+        msgByte = BytesUtils.connectBytes(BytesUtils.int2ByteArrays(length), msgByte);
         return msgByte;
     }
 }

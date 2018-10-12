@@ -1,11 +1,18 @@
 package server.service;
 
-import client.utils.StateMsg;
+import client.utils.StatusMsg;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import server.entity.AlbumInfo;
 import server.entity.MusicInfo;
+import server.entity.MusicType;
+import server.entity.SingerInfo;
 import server.entity.UserInfo;
+import server.model.AlbumModel;
 import server.model.MusicModel;
+import server.model.MusicTypeModel;
+import server.model.OrderModel;
+import server.model.SingerModel;
 import server.model.UserModel;
 import server.utils.BytesUtils;
 import server.utils.PackMsgUtil;
@@ -16,7 +23,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -91,12 +97,20 @@ public class Client implements Runnable {
                     registe(msg);
                 } else if (msg.startsWith("selectMusic")) {
                     selectMusic(msg);
+                } else if (msg.startsWith("selectAlbum")) {
+                    selectAlbum(msg);
+                } else if (msg.startsWith("selectType")) {
+                    selectType();
+                }else if (msg.startsWith("selectSinger")) {
+                    selectSinger(msg);
+                }else if (msg.startsWith("submitOrder")) {
+                    submitOrder(msg);
                 }
-            }catch (SocketException e){
+            } catch (SocketException e) {
                 // 关闭连接
                 stopClient();
                 System.out.println("一个客户端中断连接");
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -107,24 +121,39 @@ public class Client implements Runnable {
         int idx = msg.indexOf("{");
         msg = msg.substring(idx);
         // System.out.println("login方法得到的消息：" + msg);
-        JSONObject json = new JSONObject(msg);
-        String userNameStr = json.getString("userName");
-        String userPasswordStr = json.getString("userPassword");
-        StateMsg state;
+        JSONObject jsonReceive = new JSONObject(msg);
+        String userNameStr = jsonReceive.getString("userName");
+        String userPasswordStr = jsonReceive.getString("userPassword");
+        StatusMsg state;
+        JSONObject jsonData = null;
+        byte[] msgByte;
+
         try {
             UserInfo user = UserModel.queryByName(userNameStr);
             if (user == null) {
                 // 该用户不存在
-                state = StateMsg.UNREGISTERED_HINT;
-            } else if(!userPasswordStr.equals(user.getUserPassword())){
+                state = StatusMsg.UNREGISTERED_HINT;
+                msgByte = PackMsgUtil.packMsg(state.toString());
+            } else if (!userPasswordStr.equals(user.getUserPassword())) {
                 // 密码错误
-                state = StateMsg.PASSWORD_ERROR_HINT;
-            }  else {
+                state = StatusMsg.PASSWORD_ERROR_HINT;
+                msgByte = PackMsgUtil.packMsg(state.toString());
+            } else {
                 // 登录成功
-                state = StateMsg.LOGIN_SUCCESS_HINT;
+                state = StatusMsg.LOGIN_SUCCESS_HINT;
+
+                jsonData = new JSONObject(user);
+
             }
-            // System.out.println("login返回的消息： " + state.toString());
-            byte[] msgByte = PackMsgUtil.packMsg(state.toString());
+            JSONObject jsonStatus = new JSONObject(state);
+            JSONObject objData = new JSONObject();
+            objData.put("status", jsonStatus);
+            if (jsonData != null) {
+                objData.put("result", jsonData);
+            }
+
+            System.out.println("login返回的消息： " + objData.toString());
+            msgByte = PackMsgUtil.packMsg(objData.toString());
             outputStream.write(msgByte);
             outputStream.flush();
         } catch (Exception e) {
@@ -140,13 +169,13 @@ public class Client implements Runnable {
         JSONObject json = new JSONObject(msg);
         String userNameStr = json.getString("userName");
         String userPasswordStr = json.getString("userPassword");
-        StateMsg state;
+        StatusMsg state;
         int num = UserModel.insert(userNameStr, userPasswordStr);
-        if(num==1){
+        if (num == 1) {
             // 注册成功
-            state = StateMsg.REGISTERED_SUCCESS_HINT;
-        }else {
-            state = StateMsg.REGISTERED_ERROR_HINT;
+            state = StatusMsg.REGISTERED_SUCCESS_HINT;
+        } else {
+            state = StatusMsg.REGISTERED_ERROR_HINT;
         }
         try {
             byte[] msgByte = PackMsgUtil.packMsg(state.toString());
@@ -157,19 +186,111 @@ public class Client implements Runnable {
         }
     }
 
-    private void selectMusic(String msg){
+    private void selectMusic(String msg) {
         int idx = msg.indexOf("{");
         msg = msg.substring(idx);
         JSONObject json = new JSONObject(msg);
-        String musicType = json.getString("musicType");
+        int albumId = json.getInt("albumId");
 
         try {
             // TODO 缩小抛出异常范围
-            List<MusicInfo> musicInfoList = MusicModel.queryByType(musicType);
+            List<MusicInfo> musicInfoList = MusicModel.queryByAlbumId(albumId);
             JSONArray jsonArray = new JSONArray(musicInfoList);
             byte[] musicJsonByte = PackMsgUtil.packMsg(jsonArray.toString());
 
             outputStream.write(musicJsonByte);
+            outputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void selectAlbum(String msg) {
+        int idx = msg.indexOf("{");
+        msg = msg.substring(idx);
+        JSONObject json = new JSONObject(msg);
+        String albumType = json.getString("albumType");
+
+        try {
+            // TODO 缩小抛出异常范围
+            List<AlbumInfo> albumInfoList = AlbumModel.queryByType(albumType);
+            JSONArray jsonArray = new JSONArray(albumInfoList);
+            System.out.println("服务端结果：" + jsonArray.length());
+            byte[] albumJsonByte = PackMsgUtil.packMsg(jsonArray.toString());
+
+            outputStream.write(albumJsonByte);
+            outputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void selectSinger(String msg) {
+        int idx = msg.indexOf("{");
+        msg = msg.substring(idx);
+        JSONObject json = new JSONObject(msg);
+        int albumId = json.getInt("albumId");
+
+        try {
+            // TODO 缩小抛出异常范围
+            int singerId = AlbumModel.getSingerId(albumId);
+            // 查询歌手信息
+            SingerInfo singerInfo = SingerModel.queryById(singerId);
+            JSONObject jsonObject = new JSONObject(singerInfo);
+            byte[] albumJsonByte = PackMsgUtil.packMsg(jsonObject.toString());
+
+            outputStream.write(albumJsonByte);
+            outputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void selectType() {
+
+        try {
+            // 查询歌曲类型
+            List<MusicType> musicTypeList = MusicTypeModel.queryAllType();
+            JSONArray jsonArray = new JSONArray(musicTypeList);
+            byte[] albumJsonByte = PackMsgUtil.packMsg(jsonArray.toString());
+
+            outputStream.write(albumJsonByte);
+            outputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void submitOrder(String msg) {
+        int idx = msg.indexOf("{");
+        msg = msg.substring(idx);
+        JSONObject json = new JSONObject(msg);
+
+        int userId = json.getInt("userId");
+        String[] albumStrArr = json.getString("albumIdArr").split(",");
+
+        int[] albumIdArr = new int[albumStrArr.length];
+        for (int i = 0; i < albumStrArr.length ; i++) {
+            albumIdArr[i] = Integer.parseInt(albumStrArr[i].trim());
+        }
+        // 返回状态枚举
+        StatusMsg state;
+        try {
+            // TODO 缩小抛出异常范围
+            // 插入订单信息
+            int numColumn = OrderModel.insert(userId, albumIdArr);
+            if(numColumn>0){
+                state = StatusMsg.SUBMITORDER_SUCCESS_HINT;
+            }else {
+                state = StatusMsg.SUBMITORDER_ERROR_HINT;
+            }
+            byte[] returnMsg = PackMsgUtil.packMsg(state.toString());
+
+            outputStream.write(returnMsg);
             outputStream.flush();
 
         } catch (Exception e) {

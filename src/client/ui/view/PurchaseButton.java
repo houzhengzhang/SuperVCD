@@ -1,5 +1,7 @@
 package client.ui.view;
 
+import org.json.JSONObject;
+
 import javax.swing.*;
 
 /**
@@ -11,7 +13,6 @@ public class PurchaseButton extends JButton {
 
     private int row;
     private int column;
-    private int albumId;
 
     public int getRow() {
         return row;
@@ -27,14 +28,6 @@ public class PurchaseButton extends JButton {
 
     public void setColumn(int column) {
         this.column = column;
-    }
-
-    public int getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
     }
 
     public PurchaseButton() {
